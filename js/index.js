@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', () => {
       if (window.scrollY > 20) {
         navContainer.style.boxShadow = '0 10px 20px rgba(23, 22, 22, 0.84)';
- 
+        
       } else {
         navContainer.style.boxShadow = '0 10px 20px rgba(255, 255, 255, 0)';
       }
