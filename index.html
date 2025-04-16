@@ -5,6 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prigma</title>
+    <!--icon para diferentes plataformas -->
+
+    <!-- Favicon moderno (PNG/SVG) -->
+    <link rel="icon" href="/assets/img/logos /favicon.svg" type="image/png">
+
+    <!-- Para Apple -->
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <!-- Configuración Android/Chrome -->
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#ffffff">
+
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -15,16 +27,13 @@
     <div class="nav-container">
         <nav>
             <a href="#" class="logo">
-                <div class="logo-icon">P</div>
+                <div class="logo-icon"><img src="/assets/img/logos /favicon-96x96.png" alt="Logo Prigma"></div>
                 Prigma
             </a>
             <button class="menu-button" id="menuButton">☰</button>
             <ul class="nav-list" id="navList">
                 <li><a href="#services">Servicios</a></li>
-                <li><a href="#process">Proceso</a></li>
-                <li><a href="#technologies">Tecnologías</a></li>
                 <li><a href="#projects">Proyectos</a></li>
-                <li><a href="#testimonials">Testimonios</a></li>
                 <li><a href="#contact">Contacto</a></li>
                 <li><a href="#" class="cta-button">Solicitar Presupuesto</a></li>
             </ul>
@@ -33,22 +42,14 @@
 
     <!-- Sección Hero Principal -->
     <section class="hero">
-        <div class="hero-content fade-in">
+        <div class="hero-content ">
             <h2>Software personalizado para potenciar tu negocio</h2>
-            <h3>Desarrollamos soluciones a medida que transforman desafíos empresariales en ventajas competitivas</h3>
+            <h3>Somos la prisma que convierte tu idea en una solución digital clara, poderosa y funcional</h3>
             <div class="hero-links">
                 <a href="#contact" class="primary-button">Solicitar Consulta</a>
-                <a href="#process" class="secondary-button">Conoce Nuestro Proceso</a>
+                <a href="#" class="secondary-button">Solicitar Presupuesto</a>
             </div>
         </div>
-
-        <div class="wave-shape">
-            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"
-                preserveAspectRatio="none">
-                <path
-                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-                    class="shape-fill"></path>
-            </svg>
         </div>
     </section>
 
@@ -109,109 +110,9 @@
         </div>
     </section>
 
-    <!-- Sección de Tecnologías -->
-    <section id="technologies" class="technologies">
-        <h2 class="section-title fade-in">Tecnologías</h2>
-        <p class="section-subtitle fade-in">Utilizamos las tecnologías más avanzadas para crear soluciones robustas y
-            escalables.</p>
-
-        <div class="tech-logos">
-            <div class="tech-logo fade-in">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React">
-            </div>
-            <div class="tech-logo fade-in">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg"
-                    alt="Angular">
-            </div>
-            <div class="tech-logo fade-in">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue.js">
-            </div>
-            <div class="tech-logo fade-in">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
-            </div>
-            <div class="tech-logo fade-in">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
-            </div>
-            <div class="tech-logo fade-in">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java">
-            </div>
-            <div class="tech-logo fade-in">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" alt="Azure">
-            </div>
-            <div class="tech-logo fade-in">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker">
-            </div>
-            <div class="tech-logo fade-in">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg"
-                    alt="Kubernetes">
-            </div>
-        </div>
-    </section>
-
-    <!-- Sección de Proceso -->
-    <section id="process" class="process">
-        <div class="process-container">
-            <div class="process-steps">
-                <h2 class="section-title fade-in">Nuestro Proceso</h2>
-                <p class="section-subtitle fade-in" style="text-align: left; margin-left: 0;">Seguimos una metodología
-                    ágil pero estructurada para garantizar el éxito de cada proyecto.</p>
-
-                <div class="process-step fade-in">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h4>Descubrimiento</h4>
-                        <p>Analizamos en profundidad tus necesidades, procesos y objetivos para entender completamente
-                            el alcance del proyecto.</p>
-                    </div>
-                </div>
-
-                <div class="process-step fade-in">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h4>Planificación</h4>
-                        <p>Desarrollamos una estrategia detallada, definimos funcionalidades clave y establecemos plazos
-                            realistas para cada etapa.</p>
-                    </div>
-                </div>
-
-                <div class="process-step fade-in">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h4>Desarrollo</h4>
-                        <p>Nuestro equipo de ingenieros implementa la solución siguiendo las mejores prácticas y
-                            estándares de calidad de la industria.</p>
-                    </div>
-                </div>
-
-                <div class="process-step fade-in">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h4>Pruebas y Refinamiento</h4>
-                        <p>Evaluamos rigurosamente cada componente para garantizar un funcionamiento perfecto y
-                            realizamos ajustes según tus comentarios.</p>
-                    </div>
-                </div>
-
-                <div class="process-step fade-in">
-                    <div class="step-number">5</div>
-                    <div class="step-content">
-                        <h4>Implementación y Soporte</h4>
-                        <p>Desplegamos la solución en tu entorno, proporcionamos capacitación y ofrecemos soporte
-                            continuo para asegurar el éxito a largo plazo.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="process-image fade-in">
-                <img src="https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                    alt="Nuestro proceso de desarrollo" width="100%">
-            </div>
-        </div>
-    </section>
-
     <!-- Sección de Proyectos -->
     <section id="projects" class="projects">
-        <h2 class="section-title fade-in">Proyectos Destacados</h2>
+        <h2 class="section-title fade-in in-view">Proyectos Destacados</h2>
         <p class="section-subtitle fade-in">Descubre cómo hemos ayudado a transformar negocios a través de soluciones
             personalizadas.</p>
 
@@ -277,30 +178,6 @@
         </div>
     </section>
 
-    <!-- Sección de Testimonios -->
-    <section id="testimonials" class="testimonials">
-        <h2 class="section-title fade-in">Lo que Dicen Nuestros Clientes</h2>
-        <p class="section-subtitle fade-in">Conoce las experiencias de quienes ya han transformado su negocio con
-            nuestras soluciones.</p>
-
-        <div class="testimonials-slider fade-in">
-            <div class="testimonial">
-                <p class="testimonial-text">Prigma transformó completamente nuestros procesos internos. El sistema que
-                    desarrollaron no solo resolvió nuestros problemas actuales, sino que está preparado para crecer con
-                    nosotros durante los próximos años. La atención al detalle y el entendimiento de nuestras
-                    necesidades fueron excepcionales.</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">
-                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Ana Martínez">
-                    </div>
-                    <div class="author-info">
-                        <h5>Ana Martínez</h5>
-                        <p>Directora de Operaciones, IndustriasTech</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Sección de Contacto -->
     <section id="contact" class="contact">
@@ -369,64 +246,30 @@
             <div class="footer-main">
                 <div class="footer-column">
                     <div class="footer-logo">
-                        <div class="logo-icon">P</div>
+                        <div class="logo-icon"><img src="/assets/img/logos /favicon-96x96.png" alt="Logo Prigma"></div>
                         Prigma
                     </div>
                     <p class="footer-about">Somos especialistas en desarrollo de software a medida para empresas que
-                        buscan potenciar su negocio a través de la tecnología. Con más de 10 años de experiencia, hemos
-                        ayudado a más de 200 empresas a transformar sus operaciones.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        buscan potenciar su negocio a través de la tecnología.</p>
+                    <div class="social-links-container">
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="footer-column">
-                    <h6>Servicios</h6>
-                    <ul>
-                        <li><a href="#">Desarrollo a Medida <i class="fas fa-arrow-right"></i></a></li>
-                        <li><a href="#">Aplicaciones Móviles <i class="fas fa-arrow-right"></i></a></li>
-                        <li><a href="#">Integración de Sistemas <i class="fas fa-arrow-right"></i></a></li>
-                        <li><a href="#">Soluciones Web <i class="fas fa-arrow-right"></i></a></li>
-                        <li><a href="#">Business Intelligence <i class="fas fa-arrow-right"></i></a></li>
-                        <li><a href="#">Ciberseguridad <i class="fas fa-arrow-right"></i></a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h6>Empresa</h6>
-                    <ul>
-                        <li><a href="#">Sobre Nosotros <i class="fas fa-arrow-right"></i></a></li>
-                        <li><a href="#">Equipo <i class="fas fa-arrow-right"></i></a></li>
-                        <li><a href="#">Metodología <i class="fas fa-arrow-right"></i></a></li>
-                        <li><a href="#">Casos de Éxito <i class="fas fa-arrow-right"></i></a></li>
-                        <li><a href="#">Blog <i class="fas fa-arrow-right"></i></a></li>
-                        <li><a href="#">Carreras <i class="fas fa-arrow-right"></i></a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h6>Recursos</h6>
-                    <ul>
-                        <li><a href="#">Guías Técnicas <i class="fas fa-arrow-right"></i></a></li>
-                        <li><a href="#">Webinars <i class="fas fa-arrow-right"></i></a></li>
-                        <li><a href="#">Ebooks <i class="fas fa-arrow-right"></i></a></li>
-                        <li><a href="#">Preguntas Frecuentes <i class="fas fa-arrow-right"></i></a></li>
-                        <li><a href="#">Política de Privacidad <i class="fas fa-arrow-right"></i></a></li>
-                        <li><a href="#">Términos y Condiciones <i class="fas fa-arrow-right"></i></a></li>
-                    </ul>
-                </div>
             </div>
 
             <div class="footer-bottom">
                 <p>© 2025 Prigma. Todos los derechos reservados.</p>
-                <div class="footer-bottom-links">
-                    <a href="#">Política de Privacidad</a>
-                    <a href="#">Términos de Servicio</a>
-                    <a href="#">Mapa del Sitio</a>
-                </div>
+
             </div>
         </div>
     </footer>

@@ -1,4 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+    const navContainer = document.querySelector('.nav-container');
+    const logo = document.querySelector('.logo');
+    const logoIcon = document.querySelector('.logo-icon');
+    const navHeight = 70; // Altura original en px
+  
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        navContainer.style.boxShadow = '0 10px 20px rgba(23, 22, 22, 0.84)';
+ 
+      } else {
+        navContainer.style.boxShadow = '0 10px 20px rgba(255, 255, 255, 0)';
+      }
+    });
+
     // Elementos del DOM
     const menuButton = document.getElementById('menuButton');
     const navList = document.getElementById('navList');
