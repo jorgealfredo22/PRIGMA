@@ -1,0 +1,466 @@
+/* Estilos específicos para la página de presupuesto */
+.budget-hero {
+    padding: var(--space-5xl) var(--space-xl);
+    background: linear-gradient(
+        180deg, 
+        transparent 60%,
+        var(--paleta-claro-color4) 100%
+    );
+    position: relative;
+    overflow: hidden;
+}
+
+.budget-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1470&q=80');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.80;
+    z-index: -1;
+}
+
+.budget-hero .hero-content {
+    max-width: 800px;
+}
+
+.budget-hero h2 {
+    font-size: var(--size-4xl);
+    margin-bottom: var(--space-xl);
+    color: var(--paleta-claro-color5);
+    text-shadow: 0px 0px 10px var(--paleta-claro-color4);
+}
+
+.budget-hero h3 {
+    font-size: var(--size-xl);
+    color: var(--paleta-claro-color5);
+    text-shadow: 0px 0px 10px var(--paleta-claro-color4);
+}
+
+/* Formulario de presupuesto */
+.budget-form-section {
+    padding: var(--space-4xl) var(--space-xl);
+    background-color: var(--paleta-media-color5);
+}
+
+.budget-form-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--space-3xl);
+}
+
+.budget-form-intro {
+    padding: var(--space-xl);
+}
+
+.budget-form-intro .section-title {
+    color: var(--paleta-media-color4);
+    position: relative;
+    padding-bottom: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+.budget-form-intro .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 30px;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(to right, var(--paleta-media-color1), var(--paleta-media-color2));
+    border-radius: var(--border-radius-sm);
+}
+
+.budget-form-intro .section-subtitle {
+    color: var(--paleta-media-color3);
+    margin-bottom: var(--space-2xl);
+    text-align: left;
+}
+
+.budget-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+}
+
+.benefit-card {
+    background-color: rgba(var(--paleta-media-color1), 0.05);
+    border-radius: var(--border-radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid rgba(var(--paleta-media-color1), 0.1);
+    transition: var(--transition-normal);
+}
+
+.benefit-card:hover {
+    background-color: rgba(var(--paleta-media-color1), 0.1);
+    transform: translateY(calc(var(--space-xs) * -1));
+    box-shadow: var(--shadow-sm);
+}
+
+.benefit-icon {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(var(--paleta-media-color1), 0.1);
+    border-radius: var(--border-radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-md);
+    color: var(--paleta-media-color1);
+    font-size: var(--size-xl);
+}
+
+.benefit-card h4 {
+    font-size: var(--size-lg);
+    color: var(--paleta-media-color4);
+    margin-bottom: var(--space-xs);
+}
+
+.benefit-card p {
+    color: var(--paleta-media-color3);
+    font-size: var(--size-sm);
+    line-height: 1.5;
+}
+
+/* Estilos del formulario */
+.budget-form {
+    background-color: white;
+    border-radius: var(--border-radius-xl);
+    padding: var(--space-3xl);
+    box-shadow: var(--shadow-md);
+    position: relative;
+}
+
+.form-step {
+    display: none;
+}
+
+.form-step.active {
+    display: block;
+}
+
+.form-step-title {
+    font-size: var(--size-2xl);
+    color: var(--paleta-media-color4);
+    margin-bottom: var(--space-2xl);
+    position: relative;
+    padding-bottom: var(--space-md);
+}
+
+.form-step-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(to right, var(--paleta-media-color1), var(--paleta-media-color2));
+    border-radius: var(--border-radius-sm);
+}
+
+.form-group {
+    margin-bottom: var(--space-xl);
+}
+
+.form-label {
+    display: block;
+    margin-bottom: var(--space-sm);
+    font-weight: 600;
+    color: var(--paleta-media-color4);
+}
+
+.form-input, .form-textarea {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--border-radius-md);
+    font-size: var(--size-base);
+    transition: var(--transition-normal);
+    color: var(--paleta-media-color4);
+    background-color: rgba(var(--paleta-media-color5), 0.8);
+    outline: none;
+}
+
+.form-input.error {
+    border-color: #e53e3e;
+    box-shadow: 0 0 0 1px #e53e3e;
+}
+
+.form-input::placeholder, .form-textarea::placeholder {
+    color: rgba(var(--paleta-media-color4), 0.5);
+}
+
+.form-input:focus, .form-textarea:focus {
+    border-color: var(--paleta-media-color1);
+    outline: none;
+    box-shadow: 0 0 7px var(--paleta-media-color1);
+}
+
+.form-textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form-hint {
+    display: block;
+    margin-top: var(--space-xs);
+    color: var(--paleta-media-color3);
+    font-size: var(--size-sm);
+}
+
+/* Opciones de presupuesto */
+.budget-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--space-sm);
+}
+
+.budget-option {
+    display: flex;
+    align-items: center;
+    padding: var(--space-sm);
+    border: 1px solid rgba(var(--paleta-media-color4), 0.1);
+    border-radius: var(--border-radius-md);
+    transition: var(--transition-normal);
+    cursor: pointer;
+}
+
+.budget-option:hover {
+    border-color: rgba(var(--paleta-media-color1), 0.3);
+    background-color: rgba(var(--paleta-media-color1), 0.05);
+}
+
+.budget-option input {
+    margin-right: var(--space-sm);
+}
+
+/* Checkbox personalizado */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group input {
+    margin-right: var(--space-sm);
+    width: 18px;
+    height: 18px;
+}
+
+.checkbox-group label {
+    font-size: var(--size-sm);
+    color: var(--paleta-media-color3);
+}
+
+.checkbox-group a {
+    color: var(--paleta-media-color1);
+    font-weight: 600;
+}
+
+/* Navegación del formulario */
+.form-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid rgba(var(--paleta-media-color4), 0.1);
+}
+
+.form-submit {
+    background-color: var(--paleta-media-color1);
+    color: white;
+    border: none;
+    padding: var(--space-md) var(--space-2xl);
+    border-radius: var(--border-radius-full);
+    font-size: var(--size-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.form-submit:hover {
+    background-color: var(--paleta-media-color3);
+    transform: translateY(calc(var(--space-xxs) * -1));
+    box-shadow: var(--shadow-md);
+}
+
+/* Barra de progreso */
+.form-progress {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+}
+
+.progress-step {
+    width: 30px;
+    height: 6px;
+    background-color: rgba(var(--paleta-media-color4), 0.1);
+    border-radius: var(--border-radius-full);
+    transition: var(--transition-normal);
+}
+
+.progress-step.active {
+    background-color: var(--paleta-media-color1);
+    transform: scaleX(1.5);
+}
+
+/* Sección de garantías */
+.guarantees {
+    padding: var(--space-4xl) var(--space-xl);
+    background-color: var(--paleta-claro-color4);
+    text-align: center;
+}
+
+.guarantees-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.guarantees .section-title {
+    color: var(--paleta-media-color5);
+}
+
+.guarantees .section-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: var(--space-3xl);
+}
+
+.guarantees-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-2xl);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.guarantee-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius-xl);
+    padding: var(--space-2xl);
+    transition: var(--transition-slow);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.guarantee-card:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(calc(var(--space-xs) * -1));
+    border-color: rgba(var(--paleta-media-color1), 0.5);
+}
+
+.guarantee-icon {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(var(--paleta-media-color1), 0.2);
+    border-radius: var(--border-radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--space-xl);
+    color: var(--paleta-media-color1);
+    font-size: var(--size-xl);
+    transition: var(--transition-normal);
+}
+
+.guarantee-card:hover .guarantee-icon {
+    background-color: rgba(var(--paleta-media-color1), 0.3);
+    transform: scale(1.1);
+}
+
+.guarantee-card h3 {
+    font-size: var(--size-xl);
+    color: var(--paleta-media-color5);
+    margin-bottom: var(--space-md);
+}
+
+.guarantee-card p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: var(--size-base);
+}
+
+footer{
+    border-top: 1px solid;
+    padding-top: 50px;
+}
+
+button{
+    background-color: var(--paleta-media-color1);
+}
+
+button:hover{
+    background-color: var(--paleta-claro-color1) !important;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .budget-form-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .budget-form-intro {
+        text-align: center;
+    }
+    
+    .budget-form-intro .section-title::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .budget-benefits {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .benefit-card {
+        flex: 1 1 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .budget-hero h2 {
+        font-size: var(--size-3xl);
+    }
+    
+    .budget-hero h3 {
+        font-size: var(--size-lg);
+    }
+    
+    .form-step-title {
+        font-size: var(--size-xl);
+    }
+    
+    .budget-options {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .budget-hero {
+        padding: var(--space-3xl) var(--space-md);
+    }
+    
+    .budget-form {
+        padding: var(--space-xl) var(--space-md);
+    }
+    
+    .form-navigation {
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+    
+    .form-navigation button {
+        width: 100%;
+    }
+    
+    .budget-options {
+        grid-template-columns: 1fr;
+    }
+}

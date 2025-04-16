@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 /* Reset y variables globales */
 :root {
     /* Variables de paleta de colores */
@@ -720,7 +724,7 @@ nav {
 
 /* Sección de contacto */
 .contact {
-    background: linear-gradient(135deg, var(--paleta-media-color4) 0%, var(--paleta-media-color3) 100%);
+    background-color: var(--paleta-claro-color4);
     color: var(--paleta-media-color5);
     padding: var(--space-4xl) var(--space-xl);
     text-align: center;
@@ -901,7 +905,7 @@ nav {
 
 /* Pie de página */
 footer {
-    background-color: var(--paleta-media-color4);
+    background-color: var(--paleta-claro-color4);
     padding: var(--space-5xl) var(--space-xl) var(--space-3xl);
     color: rgba(255, 255, 255, 0.7);
     font-size: var(--size-sm);
@@ -937,7 +941,7 @@ footer {
 .footer-about {
     margin-bottom: var(--space-2xl);
     line-height: 1.6;
-    font-size: var(--size-sm);
+    font-size: var(--size-lg);
 }
 
 .social-links {
@@ -947,7 +951,7 @@ footer {
 
 .social-links-container{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 20px;
@@ -955,8 +959,8 @@ footer {
 }
 
 .social-link {
-    width: 42px;
-    height: 42px;
+    width: 5rem;
+    height: 5rem;
     border-radius: var(--border-radius-full);
     background-color: rgba(255, 255, 255, 0.1);
     display: flex;
@@ -1165,7 +1169,7 @@ textarea {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .nav-list {
         position: fixed;
         top: 70px;
@@ -1187,7 +1191,7 @@ textarea {
 
     .social-links-container{
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         gap: 20px;
