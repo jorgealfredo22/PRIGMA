@@ -127,7 +127,7 @@ export default function ContactPage() {
             <Link href="/" className="flex items-center">
               <div className="relative">
                 <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-600">
-                  PRIGMA
+                  <img src="/images/prigma_logo_sin_fondo.png" alt="logo prigma" style={{ width: '70px', height: '70px' }} />
                 </h1>
                 <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 rounded-full"></div>
               </div>

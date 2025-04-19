@@ -111,7 +111,7 @@ export default function Home() {
             <div className="flex items-center">
               <div className="relative">
                 <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-600">
-                  PRIGMA
+                  <img src="/images/prigma_logo_sin_fondo.png" alt="logo prigma" style={{ width: '70px', height: '70px' }} />
                 </h1>
                 <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 rounded-full"></div>
               </div>
@@ -144,7 +144,7 @@ export default function Home() {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 transition-all duration-300 group-hover:w-full"></span>
               </Link>
               <a
-                href="mailto:info@prigma.com"
+                href="/contacto"
                 className="relative inline-flex items-center justify-center px-6 py-2 overflow-hidden font-medium text-white transition duration-300 ease-out border-2 border-purple-500 rounded-full shadow-md group"
               >
                 <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-gradient-to-r from-purple-600 to-indigo-600 group-hover:translate-x-0 ease">
@@ -222,7 +222,7 @@ export default function Home() {
               </Link>
               <div className="pt-2">
                 <a
-                  href="mailto:info@prigma.com"
+                  href="/contacto"
                   className="inline-flex items-center justify-center px-6 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-medium rounded-full shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
                 >
                   Solicitar consulta
@@ -255,7 +255,7 @@ export default function Home() {
               </p>
               <div className="flex flex-wrap gap-4">
                 <a
-                  href="mailto:info@prigma.com"
+                  href="/contacto"
                   className="relative inline-flex items-center justify-center px-8 py-3 overflow-hidden font-medium text-white transition duration-300 ease-out border-2 border-purple-500 rounded-full shadow-md group"
                 >
                   <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-gradient-to-r from-purple-600 to-indigo-600 group-hover:translate-x-0 ease">
@@ -841,7 +841,7 @@ export default function Home() {
                 </div>
 
                 <Link
-                  href="mailto:info@prigma.com"
+                  href="/contacto"
                   className="w-full relative inline-flex items-center justify-center px-8 py-4 overflow-hidden font-medium text-white transition duration-300 ease-out border-2 border-purple-500 rounded-full shadow-md group"
                 >
                   <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-gradient-to-r from-purple-600 to-indigo-600 group-hover:translate-x-0 ease">
@@ -1028,28 +1028,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="mt-8">
-                <a
-                  href="#"
-                  className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-medium rounded-full shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
-                >
-                  Conoce a nuestro equipo
-                  <svg
-                    className="w-5 h-5 ml-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M14 5l7 7m0 0l-7 7m7-7H3"
-                    ></path>
-                  </svg>
-                </a>
-              </div>
+
             </motion.div>
           </motion.div>
         </div>
@@ -1278,7 +1257,8 @@ export default function Home() {
             </motion.p>
             <motion.div variants={fadeIn}>
               <Link
-                href="/contacto"
+                href="https://wa.me/573224839040?text=Hola%2C%20estoy%20interesado%20en%20conocer%20m%C3%A1s%20sobre%20sus%20servicios%20de%20desarrollo%20de%20software"
+                target="_blank" rel="noopener noreferrer"
                 className="relative inline-flex items-center justify-center px-8 py-4 overflow-hidden font-medium text-white transition duration-300 ease-out border-2 border-purple-500 rounded-full shadow-md group"
               >
                 <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-gradient-to-r from-purple-600 to-indigo-600 group-hover:translate-x-0 ease">
