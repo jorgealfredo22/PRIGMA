@@ -97,11 +97,11 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-white font-sans">
       {/* Elementos decorativos de fondo */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-      <div className="absolute top-0 left-0 w-full h-full bg-[url('/images/prigma.jpeg')] bg-no-repeat bg-center bg-cover opacity-5"></div>
-      <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-purple-600/10 blur-3xl"></div>
-      <div className="absolute top-1/3 -left-40 w-96 h-96 rounded-full bg-indigo-600/10 blur-3xl"></div>
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full bg-violet-600/10 blur-3xl"></div>
-    </div>
+        <div className="absolute top-0 left-0 w-full h-full bg-[url('/images/prigma.jpeg')] bg-no-repeat bg-center bg-cover opacity-5"></div>
+        <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-purple-600/10 blur-3xl"></div>
+        <div className="absolute top-1/3 -left-40 w-96 h-96 rounded-full bg-indigo-600/10 blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full bg-violet-600/10 blur-3xl"></div>
+      </div>
 
 
       {/* Header & Navigation */}
@@ -704,7 +704,7 @@ export default function Home() {
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                   </svg>
-                  Implementación de IA 
+                  Implementación de IA
                 </li>
                 <li className="flex items-center text-sm text-gray-400">
                   <svg
@@ -1344,7 +1344,12 @@ export default function Home() {
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-center">Teléfono</h3>
-                <p className="text-center text-purple-400">+57 (322) 483-9040</p>
+                <a href="tel:+573224839040">
+                  <p className="text-center text-purple-400 hover:underline cursor-pointer">
+                    +57 (322) 483-9040
+                  </p>
+                </a>
+
               </div>
 
               <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:border-purple-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10 group">
@@ -1438,8 +1443,8 @@ export default function Home() {
                 </a>
               </div>
             </div>
-           
-            
+
+
           </div>
           <div className="pt-8 border-t border-gray-800/50 text-center text-gray-400 text-sm">
             <p>&copy; {new Date().getFullYear()} PRIGMA. Todos los derechos reservados.</p>

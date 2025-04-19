@@ -1,66 +1,120 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
-import Link from "next/link"
 import { motion } from "framer-motion"
+import emailjs from "@emailjs/browser"
+import Link from "next/link"
+
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6 },
+  },
+}
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+}
 
 export default function ContactPage() {
-  const [formState, setFormState] = useState({
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     message: "",
   })
+
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitResult, setSubmitResult] = useState<{ success: boolean; message: string } | null>(null)
+  const [errors, setErrors] = useState<Record<string, string>>({})
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    setFormState((prev) => ({ ...prev, [name]: value }))
+    setFormData((prev) => ({ ...prev, [name]: value }))
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }))
+    }
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {}
+    let isValid = true
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Por favor ingresa tu nombre"
+      isValid = false
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!formData.email.trim()) {
+      newErrors.email = "Por favor ingresa tu correo electrónico"
+      isValid = false
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = "Por favor ingresa un correo válido"
+      isValid = false
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = "Por favor ingresa tu mensaje"
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setSubmitResult(null)
 
-    // Simulación de envío de formulario
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    const isValid = validateForm()
+    if (!isValid) {
+      setIsSubmitting(false)
+      return
+    }
 
-    setSubmitResult({
-      success: true,
-      message: "¡Gracias por contactarnos! Te responderemos a la brevedad.",
-    })
+    try {
+      const payload = {
+        ...formData,
+        time: new Date().toLocaleString("es-CO", { timeZone: "America/Bogota" }),
+      }
 
-    setIsSubmitting(false)
+      const result = await emailjs.send(
+        "service_edzis5a",
+        "template_zto7ojv",
+        payload,
+        "3KwX8Za1tCdlIKDS5"
+      )
+
+      if (result.status === 200) {
+        setSubmitResult({ success: true, message: "Mensaje enviado con éxito." })
+        setFormData({ name: "", email: "", phone: "", message: "" })
+      } else {
+        throw new Error("Error en el envío")
+      }
+    } catch (error) {
+      console.error("Error:", error)
+      setSubmitResult({
+        success: false,
+        message: "Hubo un error al enviar el mensaje. Intenta nuevamente.",
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
-
-  // Variantes para animaciones
-  const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  }
-
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  }
-
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-white font-sans">
       {/* Elementos decorativos de fondo */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('/images/prigma.jpeg')] opacity-5"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-[url('/images/prigma.jpeg')] bg-no-repeat bg-center bg-cover opacity-5"></div>
         <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-purple-600/10 blur-3xl"></div>
         <div className="absolute top-1/3 -left-40 w-96 h-96 rounded-full bg-indigo-600/10 blur-3xl"></div>
         <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full bg-violet-600/10 blur-3xl"></div>
@@ -123,31 +177,62 @@ export default function ContactPage() {
                 <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-8 hover:border-purple-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10">
                   {submitResult ? (
                     <div className="text-center py-8">
-                      <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-600/20 to-indigo-600/20 flex items-center justify-center backdrop-blur-sm border border-purple-500/20 mx-auto mb-6">
-                        <svg
-                          className="w-10 h-10 text-purple-400"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
+                      <div className={`w-20 h-20 rounded-full ${submitResult.success ? 'bg-gradient-to-br from-purple-600/20 to-indigo-600/20' : 'bg-gradient-to-br from-red-600/20 to-pink-600/20'} flex items-center justify-center backdrop-blur-sm border ${submitResult.success ? 'border-purple-500/20' : 'border-red-500/20'} mx-auto mb-6`}>
+                        {submitResult.success ? (
+                          <svg
+                            className="w-10 h-10 text-purple-400"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                          </svg>
+                        ) : (
+                          <svg
+                            className="w-10 h-10 text-red-400"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                          </svg>
+                        )}
                       </div>
-                      <h3 className="text-2xl font-bold mb-4">{submitResult.message}</h3>
-                      <p className="text-gray-300 mb-6">Nuestro equipo revisará tu mensaje y te contactará pronto.</p>
+                      <h3 className={`text-2xl font-bold mb-4 ${submitResult.success ? 'text-white' : 'text-red-400'}`}>
+                        {submitResult.message}
+                      </h3>
+                      {submitResult.success && (
+                        <p className="text-gray-300 mb-6">Nuestro equipo revisará tu mensaje y te contactará pronto.</p>
+                      )}
                       <button
                         onClick={() => {
                           setSubmitResult(null)
-                          setFormState({ name: "", email: "", phone: "", message: "" })
+                          setFormData({
+                            name: "",
+                            email: "",
+                            phone: "",
+                            message: ""
+                          })
                         }}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-medium rounded-full shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
+                        className={`inline-flex items-center justify-center px-6 py-3 ${submitResult.success ? 'bg-gradient-to-r from-purple-600 to-indigo-600' : 'bg-gradient-to-r from-red-600 to-pink-600'} text-white font-medium rounded-full shadow-lg hover:shadow-purple-500/25 transition-all duration-300`}
                       >
-                        Enviar otro mensaje
+                        {submitResult.success ? 'Enviar otro mensaje' : 'Intentar nuevamente'}
                       </button>
                     </div>
                   ) : (
                     <form onSubmit={handleSubmit}>
+                      {/* Campo honeypot oculto (anti-spam) */}
+                      <input
+                        type="text"
+                        name="_honey"
+                        onChange={handleChange}
+                        className="hidden"
+                        tabIndex={-1}
+                        autoComplete="off"
+                      />
+
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
                           <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
@@ -157,12 +242,12 @@ export default function ContactPage() {
                             type="text"
                             id="name"
                             name="name"
-                            value={formState.name}
+                            value={formData.name}
                             onChange={handleChange}
-                            required
-                            className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                            className={`w-full px-4 py-3 bg-gray-800/50 border ${errors.name ? 'border-red-500' : 'border-gray-700'} rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300`}
                             placeholder="Tu nombre"
                           />
+                          {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name}</p>}
                         </div>
                         <div>
                           <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
@@ -172,12 +257,12 @@ export default function ContactPage() {
                             type="email"
                             id="email"
                             name="email"
-                            value={formState.email}
+                            value={formData.email}
                             onChange={handleChange}
-                            required
-                            className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                            className={`w-full px-4 py-3 bg-gray-800/50 border ${errors.email ? 'border-red-500' : 'border-gray-700'} rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300`}
                             placeholder="tu@email.com"
                           />
+                          {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
                         </div>
                       </div>
                       <div className="mb-6">
@@ -188,10 +273,10 @@ export default function ContactPage() {
                           type="tel"
                           id="phone"
                           name="phone"
-                          value={formState.phone}
+                          value={formData.phone}
                           onChange={handleChange}
                           className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
-                          placeholder="+1 (555) 123-4567"
+                          placeholder="+57 (312) 345-6789"
                         />
                       </div>
                       <div className="mb-6">
@@ -201,19 +286,20 @@ export default function ContactPage() {
                         <textarea
                           id="message"
                           name="message"
-                          value={formState.message}
+                          value={formData.message}
                           onChange={handleChange}
-                          required
                           rows={5}
-                          className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                          className={`w-full px-4 py-3 bg-gray-800/50 border ${errors.message ? 'border-red-500' : 'border-gray-700'} rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300`}
                           placeholder="Cuéntanos sobre tu proyecto o consulta..."
                         ></textarea>
+                        {errors.message && <p className="text-red-400 text-sm mt-1">{errors.message}</p>}
                       </div>
                       <div className="text-right">
-                        <button
+                        <motion.button
                           type="submit"
                           disabled={isSubmitting}
                           className="relative inline-flex items-center justify-center px-8 py-4 overflow-hidden font-medium text-white transition duration-300 ease-out border-2 border-purple-500 rounded-full shadow-md group disabled:opacity-70"
+                          whileTap={{ scale: 0.95 }}
                         >
                           <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-gradient-to-r from-purple-600 to-indigo-600 group-hover:translate-x-0 ease">
                             <svg
@@ -235,13 +321,14 @@ export default function ContactPage() {
                             {isSubmitting ? "Enviando..." : "Enviar mensaje"}
                           </span>
                           <span className="relative invisible">{isSubmitting ? "Enviando..." : "Enviar mensaje"}</span>
-                        </button>
+                        </motion.button>
                       </div>
                     </form>
                   )}
                 </div>
               </motion.div>
 
+              {/* Información de contacto (se mantiene igual que en tu código original) */}
               <motion.div variants={fadeIn}>
                 <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-8 hover:border-purple-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10">
                   <h3 className="text-xl font-bold mb-6 relative">
@@ -297,7 +384,12 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h4 className="font-semibold">Teléfono</h4>
-                        <p className="text-purple-400">+57 (322) 483-9040</p>
+                        <a href="tel:+573224839040">
+                          <p className="text-center text-purple-400 hover:underline cursor-pointer">
+                            +57 (322) 483-9040
+                          </p>
+                        </a>
+
                       </div>
                     </div>
 
