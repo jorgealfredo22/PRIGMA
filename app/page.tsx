@@ -950,9 +950,9 @@ export default function Home() {
                 <span className="absolute -bottom-3 left-0 w-20 h-1 bg-gradient-to-r from-purple-400 to-indigo-600 rounded-full"></span>
               </h2>
               <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                Contamos con un equipo de desarrolladores senior con más de 10 años de experiencia en la industria.
-                Especialistas en diferentes tecnologías y frameworks que garantizan soluciones robustas y escalables
-                para tu negocio.
+                Contamos con un equipo de desarrolladores con más de 3 años de experiencia trabajando de forma constante en proyectos 
+                para distintas industrias. Dominamos diversas tecnologías y frameworks, lo que nos permite ofrecer soluciones sólidas, 
+                eficientes y adaptadas a las necesidades de tu negocio.
               </p>
 
               <div className="space-y-4">
