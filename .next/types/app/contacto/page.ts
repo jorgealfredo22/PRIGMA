@@ -1,4 +1,4 @@
-// File: /home/christian/Documentos/proyectos/prigma web/app/contacto/page.tsx
+// File: /home/christian/Documents/PRIGMA/app/contacto/page.tsx
 import * as entry from '../../../../app/contacto/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
