@@ -94,7 +94,7 @@ export default function SchemaMarkup() {
         "name": "¿Cuánto cuesta desarrollar un software a medida?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Depende de la complejidad del proyecto. Una app simple puede partir desde $2.000.000 COP, mientras que un sistema empresarial completo puede costar más. La consulta inicial es gratuita y te damos un presupuesto detallado sin compromiso."
+          "text": "El costo varía según las necesidades específicas de cada empresa. No trabajamos con precios estándar, ya que cada proyecto requiere un análisis personalizado. Lo que sí te garantizamos es total transparencia: analizamos tu idea, te asesoramos y te entregamos una propuesta clara, sin compromiso."
         }
       },
       {
@@ -102,7 +102,7 @@ export default function SchemaMarkup() {
         "name": "¿Cuánto tiempo tarda un proyecto?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Un proyecto simple puede estar listo en 4-6 semanas. Sistemas más complejos como ERPs o apps móviles pueden tomar 2-4 meses. Trabajamos con sprints de 2 semanas para que veas avances constantes."
+          "text": "Depende del tipo de solución. Contamos con sistemas ya desarrollados que podemos adaptar a tu negocio, lo que nos permite implementar algunas soluciones desde 1 semana. Para proyectos completamente a medida, trabajamos por fases con metodologías ágiles, lo que te permite ver avances constantes y obtener resultados desde etapas tempranas."
         }
       },
       {
@@ -110,7 +110,7 @@ export default function SchemaMarkup() {
         "name": "¿Qué tecnologías usan?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Trabajamos con JavaScript, TypeScript, React, Next.js, Node.js, EJS, PostgreSQL, MongoDB y más. Elegimos la tecnología que mejor se adapte a tu proyecto y presupuesto."
+          "text": "Trabajamos con tecnologías modernas y altamente demandadas como JavaScript, TypeScript, React, Next.js, Node.js, PostgreSQL, MongoDB, entre otras. Elegimos siempre la mejor tecnología según tu proyecto, priorizando rendimiento, seguridad y escalabilidad a largo plazo."
         }
       },
       {
@@ -118,7 +118,7 @@ export default function SchemaMarkup() {
         "name": "¿Ofrecen soporte después de la entrega?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sí. Todos nuestros proyectos incluyen soporte post-entrega. Ofrecemos planes de mantenimiento mensual para actualizaciones, corrección de bugs y mejoras continuas."
+          "text": "Sí, y es una parte clave de nuestro servicio. No solo entregamos el software, sino que te acompañamos después del lanzamiento para asegurar que todo funcione correctamente. Además, ofrecemos planes de mantenimiento para mejoras continuas, actualizaciones y soporte técnico cuando lo necesites."
         }
       },
       {
@@ -126,7 +126,7 @@ export default function SchemaMarkup() {
         "name": "¿Trabajan con clientes fuera de Colombia?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sí. Aunque estamos basados en Sogamoso, Colombia, trabajamos con clientes de toda Latinoamérica de forma remota. Usamos herramientas de comunicación y gestión de proyectos para mantenernos conectados."
+          "text": "Sí. Trabajamos con empresas en diferentes países de Latinoamérica de forma 100% remota. Nos apoyamos en herramientas de gestión y comunicación que nos permiten mantenerte informado en todo momento y garantizar un proceso ordenado y eficiente."
         }
       },
       {
@@ -134,7 +134,7 @@ export default function SchemaMarkup() {
         "name": "¿Puedo ver el avance de mi proyecto?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Absolutamente. Hacemos entregas incrementales cada 2 semanas y tenés acceso al código fuente desde el día uno. Podés ver el progreso en tiempo real y dar feedback en cada etapa."
+          "text": "Claro que sí. Tendrás visibilidad total del proyecto desde el inicio. Trabajamos con entregas por etapas, donde podrás revisar avances, probar funcionalidades y dar feedback continuo. Nuestro objetivo es que siempre tengas el control y que el resultado final sea exactamente lo que tu negocio necesita."
         }
       }
     ]
