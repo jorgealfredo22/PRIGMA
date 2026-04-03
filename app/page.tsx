@@ -126,6 +126,14 @@ export default function Home() {
                 Servicios
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 transition-all duration-300 group-hover:w-full"></span>
               </Link>
+              <Link href="/servicios" className="text-gray-300 hover:text-white transition-colors relative group">
+                Detalles
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+              <Link href="/pricing" className="text-gray-300 hover:text-white transition-colors relative group">
+                Precios
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+              </Link>
               <Link href="#pilares" className="text-gray-300 hover:text-white transition-colors relative group">
                 Metodología
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 transition-all duration-300 group-hover:w-full"></span>
@@ -164,9 +172,9 @@ export default function Home() {
                   </svg>
                 </span>
                 <span className="absolute flex items-center justify-center w-full h-full text-white transition-all duration-300 transform group-hover:translate-x-full ease">
-                  Solicitar consulta
+                  Agendar consulta gratis
                 </span>
-                <span className="relative invisible">Solicitar consulta</span>
+                <span className="relative invisible">Agendar consulta gratis</span>
               </a>
             </nav>
 
@@ -225,7 +233,7 @@ export default function Home() {
                   href="/contacto"
                   className="inline-flex items-center justify-center px-6 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-medium rounded-full shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
                 >
-                  Solicitar consulta
+                  Agendar consulta gratis
                 </a>
               </div>
             </div>
@@ -243,15 +251,15 @@ export default function Home() {
             className="grid md:grid-cols-2 gap-12 items-center"
           >
             <motion.div variants={fadeIn}>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                Soluciones digitales  {" "}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                Software que transforma {" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-600">
-                  a la medida de tu negocio
+                  tu negocio en 30 días
                 </span>
-              </h2>
+              </h1>
               <p className="mb-8 text-gray-300 text-lg leading-relaxed">
-                Desarrollamos software personalizado que transforma ideas en soluciones tecnológicas innovadoras,
-                optimizando procesos y potenciando el crecimiento de tu empresa.
+                Desarrollamos aplicaciones web, móviles y sistemas empresariales a medida. 
+                Desde Sogamoso para toda Colombia — código limpio, entregas puntuales y soporte continuo.
               </p>
               <div className="flex flex-wrap gap-4">
                 <a
@@ -275,9 +283,9 @@ export default function Home() {
                     </svg>
                   </span>
                   <span className="absolute flex items-center justify-center w-full h-full text-white transition-all duration-300 transform group-hover:translate-x-full ease">
-                    Solicitar consulta
+                    Agendar consulta gratis
                   </span>
-                  <span className="relative invisible">Solicitar consulta</span>
+                  <span className="relative invisible">Agendar consulta gratis</span>
                 </a>
 
                 <Link
@@ -315,9 +323,24 @@ export default function Home() {
                   </svg>
                 </div>
                 <p className="ml-4 text-gray-300">
-                  <span className="block text-white font-semibold">100% Garantizado</span>
-                  Proyectos entregados a tiempo y con calidad
+                  <span className="block text-white font-semibold">Entregas a tiempo garantizadas</span>
+                  Si no cumplimos el plazo, te devolvemos tu dinero
                 </p>
+              </div>
+
+              <div className="mt-8 grid grid-cols-3 gap-4">
+                <div className="text-center">
+                  <div className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-600">3+</div>
+                  <div className="text-xs text-gray-400 mt-1">Años de experiencia</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-600">10+</div>
+                  <div className="text-xs text-gray-400 mt-1">Proyectos entregados</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-600">100%</div>
+                  <div className="text-xs text-gray-400 mt-1">Clientes satisfechos</div>
+                </div>
               </div>
             </motion.div>
             <motion.div variants={fadeIn} className="flex justify-center">
@@ -493,6 +516,85 @@ export default function Home() {
                 </div>
               </div>
 
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* How We Work */}
+      <section className="relative z-10 py-20 md:py-28 bg-gradient-to-b from-gray-950 to-gray-900">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+            className="text-center mb-16"
+          >
+            <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-bold mb-4 inline-block relative">
+              Cómo{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-600">
+                trabajamos
+              </span>
+              <span className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-purple-400 to-indigo-600 rounded-full"></span>
+            </motion.h2>
+            <motion.p variants={fadeIn} className="text-gray-300 max-w-2xl mx-auto">
+              Un proceso simple y transparente para llevar tu idea del papel a la realidad.
+            </motion.p>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+            className="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto"
+          >
+            {/* Step 1 */}
+            <motion.div variants={fadeIn} className="text-center relative">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+                1
+              </div>
+              <h3 className="text-xl font-bold mb-2">Consulta gratuita</h3>
+              <p className="text-gray-400 text-sm">
+                Nos contás tu idea o problema y te damos una propuesta clara sin compromiso.
+              </p>
+              <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-0.5 bg-gradient-to-r from-purple-600/50 to-indigo-600/50"></div>
+            </motion.div>
+
+            {/* Step 2 */}
+            <motion.div variants={fadeIn} className="text-center relative">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+                2
+              </div>
+              <h3 className="text-xl font-bold mb-2">Diseño y planificación</h3>
+              <p className="text-gray-400 text-sm">
+                Definimos funcionalidades, plazos y presupuesto. Todo por escrito, sin sorpresas.
+              </p>
+              <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-0.5 bg-gradient-to-r from-purple-600/50 to-indigo-600/50"></div>
+            </motion.div>
+
+            {/* Step 3 */}
+            <motion.div variants={fadeIn} className="text-center relative">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+                3
+              </div>
+              <h3 className="text-xl font-bold mb-2">Desarrollo ágil</h3>
+              <p className="text-gray-400 text-sm">
+                Entregas incrementales cada 2 semanas para que veas el avance en tiempo real.
+              </p>
+              <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-0.5 bg-gradient-to-r from-purple-600/50 to-indigo-600/50"></div>
+            </motion.div>
+
+            {/* Step 4 */}
+            <motion.div variants={fadeIn} className="text-center">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+                4
+              </div>
+              <h3 className="text-xl font-bold mb-2">Entrega y soporte</h3>
+              <p className="text-gray-400 text-sm">
+                Lanzamos tu producto y te acompañamos con soporte continuo y mejoras.
+              </p>
             </motion.div>
           </motion.div>
         </div>
@@ -861,9 +963,9 @@ export default function Home() {
                     </svg>
                   </span>
                   <span className="absolute flex items-center justify-center w-full h-full text-white transition-all duration-300 transform group-hover:translate-x-full ease">
-                    Solicitar consulta
+                    Agendar consulta gratis
                   </span>
-                  <span className="relative invisible">Solicitar consulta</span>
+                  <span className="relative invisible">Agendar consulta gratis</span>
                 </Link>
 
                 <div className="flex justify-center space-x-6 mt-8">
@@ -930,105 +1032,142 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="grid md:grid-cols-2 gap-12 items-center"
+            className="text-center mb-16"
           >
-            <motion.div variants={fadeIn} className="flex justify-center">
-              <div className="relative w-72 h-72 md:w-96 md:h-96">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl blur-3xl opacity-20"></div>
-                <div className="relative z-10 w-full h-full rounded-xl overflow-hidden border-2 border-purple-500/20 shadow-2xl shadow-purple-500/10">
-                  <Image src="/images/prigma.jpeg" alt="Líder de Equipo Prigma" fill className="object-cover" />
+            <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-bold mb-4 inline-block relative">
+              El{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-600">
+                equipo
+              </span>{" "}
+              detrás de PRIGMA
+              <span className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-purple-400 to-indigo-600 rounded-full"></span>
+            </motion.h2>
+            <motion.p variants={fadeIn} className="text-gray-300 max-w-2xl mx-auto text-lg">
+              Somos un equipo de desarrolladores con más de 3 años de experiencia creando soluciones de software para distintas industrias. Dominamos diversas tecnologías y frameworks para ofrecer productos sólidos y adaptados a tu negocio.
+            </motion.p>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto"
+          >
+            {/* Christian */}
+            <motion.div variants={fadeIn} className="group text-center">
+              <div className="relative w-40 h-40 mx-auto mb-6">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
+                <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-purple-500/30 group-hover:border-purple-400 transition-colors duration-300">
+                  <Image
+                    src="https://avatars.githubusercontent.com/u/174916212?v=4"
+                    alt="Christian"
+                    fill
+                    className="object-cover"
+                  />
                 </div>
-                <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full blur-xl opacity-40"></div>
               </div>
+              <h3 className="text-xl font-bold mb-1">Christian</h3>
+              <p className="text-purple-400 text-sm mb-3">Full-Stack Developer</p>
+              <p className="text-gray-400 text-sm mb-4">Líder técnico con experiencia en proyectos web y sistemas de gestión.</p>
+              <a
+                href="https://github.com/Christian3h"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-gray-400 hover:text-purple-400 transition-colors text-sm"
+              >
+                <svg className="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </a>
             </motion.div>
-            <motion.div variants={fadeIn}>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 relative">
-                Nuestro{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-600">
-                  equipo de expertos
-                </span>
-                <span className="absolute -bottom-3 left-0 w-20 h-1 bg-gradient-to-r from-purple-400 to-indigo-600 rounded-full"></span>
-              </h2>
-              <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                Contamos con un equipo de desarrolladores con más de 3 años de experiencia trabajando de forma constante en proyectos 
-                para distintas industrias. Dominamos diversas tecnologías y frameworks, lo que nos permite ofrecer soluciones sólidas, 
-                eficientes y adaptadas a las necesidades de tu negocio.
-              </p>
 
-              <div className="space-y-4">
-                <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600/20 to-indigo-600/20 flex items-center justify-center backdrop-blur-sm border border-purple-500/20 mr-4">
-                    <svg
-                      className="w-6 h-6 text-purple-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Certificaciones de primer nivel</h4>
-                    <p className="text-sm text-gray-400">Certificados en las tecnologías más demandadas del mercado</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600/20 to-indigo-600/20 flex items-center justify-center backdrop-blur-sm border border-purple-500/20 mr-4">
-                    <svg
-                      className="w-6 h-6 text-purple-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Equipos multidisciplinarios</h4>
-                    <p className="text-sm text-gray-400">
-                      Expertos en desarrollo, diseño UX/UI, DevOps y gestión de proyectos
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600/20 to-indigo-600/20 flex items-center justify-center backdrop-blur-sm border border-purple-500/20 mr-4">
-                    <svg
-                      className="w-6 h-6 text-purple-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M13 10V3L4 14h7v7l9-11h-7z"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Metodologías ágiles</h4>
-                    <p className="text-sm text-gray-400">DevOps y CI/CD para entregas continuas y de alta calidad</p>
-                  </div>
+            {/* Cristian Arismendy */}
+            <motion.div variants={fadeIn} className="group text-center">
+              <div className="relative w-40 h-40 mx-auto mb-6">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
+                <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-purple-500/30 group-hover:border-purple-400 transition-colors duration-300">
+                  <Image
+                    src="https://avatars.githubusercontent.com/u/131270937?v=4"
+                    alt="Cristian Arismendy"
+                    fill
+                    className="object-cover"
+                  />
                 </div>
               </div>
+              <h3 className="text-xl font-bold mb-1">Cristian Arismendy</h3>
+              <p className="text-purple-400 text-sm mb-3">Developer</p>
+              <p className="text-gray-400 text-sm mb-4">Apasionado por el desarrollo de soluciones creativas y eficientes.</p>
+              <a
+                href="https://github.com/0LAYUS"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-gray-400 hover:text-purple-400 transition-colors text-sm"
+              >
+                <svg className="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </a>
+            </motion.div>
 
+            {/* Daniel Rodriguez */}
+            <motion.div variants={fadeIn} className="group text-center">
+              <div className="relative w-40 h-40 mx-auto mb-6">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
+                <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-purple-500/30 group-hover:border-purple-400 transition-colors duration-300">
+                  <Image
+                    src="https://avatars.githubusercontent.com/u/178537819?v=4"
+                    alt="Daniel Rodriguez"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+              <h3 className="text-xl font-bold mb-1">Daniel Rodriguez</h3>
+              <p className="text-purple-400 text-sm mb-3">Full-Stack Developer</p>
+              <p className="text-gray-400 text-sm mb-4">Experiencia en EJS, JavaScript, Python y Java. Enfocado en sistemas de gestión.</p>
+              <a
+                href="https://github.com/Danieln416"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-gray-400 hover:text-purple-400 transition-colors text-sm"
+              >
+                <svg className="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </a>
+            </motion.div>
 
+            {/* Jorge Alfredo */}
+            <motion.div variants={fadeIn} className="group text-center">
+              <div className="relative w-40 h-40 mx-auto mb-6">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
+                <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-purple-500/30 group-hover:border-purple-400 transition-colors duration-300">
+                  <Image
+                    src="https://avatars.githubusercontent.com/u/205694992?v=4"
+                    alt="Jorge Alfredo Arismendy"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+              <h3 className="text-xl font-bold mb-1">Jorge Alfredo</h3>
+              <p className="text-purple-400 text-sm mb-3">Full-Stack Developer</p>
+              <p className="text-gray-400 text-sm mb-4">Desarrollador con enfoque en TypeScript y tecnologías web modernas.</p>
+              <a
+                href="https://github.com/jorgealfredo22"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-gray-400 hover:text-purple-400 transition-colors text-sm"
+              >
+                <svg className="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </a>
             </motion.div>
           </motion.div>
         </div>
@@ -1062,18 +1201,17 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="grid md:grid-cols-3 gap-8"
+            className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"
           >
-            {/* Project 1 */}
+            {/* Project 1 - BarberPro */}
             <motion.div
               variants={fadeIn}
               className="group bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl overflow-hidden hover:border-purple-500/30 transition-all duration-500 hover:shadow-xl hover:shadow-purple-500/10"
             >
               <div className="h-56 relative overflow-hidden">
                 <Image
-                  // foto para los proyectos
-                  src="/images/prigma.jpeg"
-                  alt="Proyecto 1"
+                  src="/uploads/mockup-all-framed.png"
+                  alt="BarberPro"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
@@ -1081,19 +1219,19 @@ export default function Home() {
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-3 group-hover:text-purple-400 transition-colors">
-                  Sistema ERP para Retail
+                  BarberPro
                 </h3>
                 <p className="text-gray-300 mb-4 text-sm">
-                  Desarrollo de un sistema completo de gestión para cadena de tiendas con módulos de inventario, ventas
-                  y CRM.
+                  Sistema de gestión de citas para barberías modernas.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">React</span>
-                  <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">Node.js</span>
-                  <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">PostgreSQL</span>
+                  <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">EJS</span>
+                  <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">JavaScript</span>
                 </div>
                 <a
-                  href="#"
+                  href="https://barberia-elite-838bf.web.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors text-sm"
                 >
                   <span>Ver producto</span>
@@ -1115,16 +1253,15 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Project 2 */}
+            {/* Project 2 - ShopFlow */}
             <motion.div
               variants={fadeIn}
               className="group bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl overflow-hidden hover:border-purple-500/30 transition-all duration-500 hover:shadow-xl hover:shadow-purple-500/10"
             >
               <div className="h-56 relative overflow-hidden">
                 <Image
-                  // fotos para los proyectos
-                  src="/images/prigma.jpeg"
-                  alt="Proyecto 2"
+                  src="/uploads/mockup-all-framed(1).png"
+                  alt="ShopFlow"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
@@ -1132,69 +1269,19 @@ export default function Home() {
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-3 group-hover:text-purple-400 transition-colors">
-                  App Móvil Financiera
+                  ShopFlow
                 </h3>
                 <p className="text-gray-300 mb-4 text-sm">
-                  Aplicación móvil para gestión financiera personal con integración a múltiples bancos y análisis de
-                  gastos.
+                  Plataforma de ventas online optimizada para pequeñas empresas.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">React Native</span>
-                  <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">Firebase</span>
-                  <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">API REST</span>
+                  <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">EJS</span>
+                  <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">JavaScript</span>
                 </div>
                 <a
-                  href="#"
-                  className="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors text-sm"
-                >
-                  <span>Ver producto</span>
-                  <svg
-                    className="w-4 h-4 ml-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M14 5l7 7m0 0l-7 7m7-7H3"
-                    ></path>
-                  </svg>
-                </a>
-              </div>
-            </motion.div>
-
-            {/* Project 3 */}
-            <motion.div
-              variants={fadeIn}
-              className="group bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl overflow-hidden hover:border-purple-500/30 transition-all duration-500 hover:shadow-xl hover:shadow-purple-500/10"
-            >
-              <div className="h-56 relative overflow-hidden">
-                <Image
-                  // foto para los proyectos
-                  src="/images/prigma.jpeg"
-                  alt="Proyecto 3"
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-500"></div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-3 group-hover:text-purple-400 transition-colors">
-                  Plataforma de Telemedicina
-                </h3>
-                <p className="text-gray-300 mb-4 text-sm">
-                  Sistema integral para consultas médicas virtuales con gestión de expedientes y recetas electrónicas.
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">Next.js</span>
-                  <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">WebRTC</span>
-                  <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">MongoDB</span>
-                </div>
-                <a
-                  href="#"
+                  href="https://ramautolux-tienda.onrender.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors text-sm"
                 >
                   <span>Ver producto</span>
@@ -1234,6 +1321,74 @@ export default function Home() {
               </svg>
             </a>
           </div> */}
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="relative z-10 py-20 md:py-28">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+            className="text-center mb-16"
+          >
+            <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-bold mb-4 inline-block relative">
+              Preguntas{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-600">
+                frecuentes
+              </span>
+              <span className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-purple-400 to-indigo-600 rounded-full"></span>
+            </motion.h2>
+            <motion.p variants={fadeIn} className="text-gray-300 max-w-2xl mx-auto">
+              Respuestas a las dudas más comunes de nuestros clientes.
+            </motion.p>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+            className="max-w-3xl mx-auto space-y-6"
+          >
+            {[
+              {
+                q: "¿Cuánto cuesta desarrollar un software a medida?",
+                a: "Depende de la complejidad del proyecto. Una app simple puede partir desde $2.000.000 COP, mientras que un sistema empresarial completo puede costar más. La consulta inicial es gratuita y te damos un presupuesto detallado sin compromiso."
+              },
+              {
+                q: "¿Cuánto tiempo tarda un proyecto?",
+                a: "Un proyecto simple puede estar listo en 4-6 semanas. Sistemas más complejos como ERPs o apps móviles pueden tomar 2-4 meses. Trabajamos con sprints de 2 semanas para que veas avances constantes."
+              },
+              {
+                q: "¿Qué tecnologías usan?",
+                a: "Trabajamos con JavaScript, TypeScript, React, Next.js, Node.js, EJS, PostgreSQL, MongoDB y más. Elegimos la tecnología que mejor se adapte a tu proyecto y presupuesto."
+              },
+              {
+                q: "¿Ofrecen soporte después de la entrega?",
+                a: "Sí. Todos nuestros proyectos incluyen soporte post-entrega. Ofrecemos planes de mantenimiento mensual para actualizaciones, corrección de bugs y mejoras continuas."
+              },
+              {
+                q: "¿Trabajan con clientes fuera de Colombia?",
+                a: "Sí. Aunque estamos basados en Sogamoso, Colombia, trabajamos con clientes de toda Latinoamérica de forma remota. Usamos herramientas de comunicación y gestión de proyectos para mantenernos conectados."
+              },
+              {
+                q: "¿Puedo ver el avance de mi proyecto?",
+                a: "Absolutamente. Hacemos entregas incrementales cada 2 semanas y tenés acceso al código fuente desde el día uno. Podés ver el progreso en tiempo real y dar feedback en cada etapa."
+              }
+            ].map((faq, i) => (
+              <motion.div
+                key={i}
+                variants={fadeIn}
+                className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:border-purple-500/30 transition-all duration-300"
+              >
+                <h3 className="text-lg font-semibold mb-3 text-white">{faq.q}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">{faq.a}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
@@ -1411,13 +1566,16 @@ export default function Home() {
                   </svg>
                 </a>
                 <a
-                  href="#"
+                  href="https://github.com/Christian3h"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-purple-600/20 hover:text-purple-400 transition-all duration-300"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path
                       fillRule="evenodd"
                       d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z"
+                      clipRule="evenodd"
                     ></path>
                   </svg>
                 </a>
@@ -1428,6 +1586,10 @@ export default function Home() {
           </div>
           <div className="pt-8 border-t border-gray-800/50 text-center text-gray-400 text-sm">
             <p>&copy; {new Date().getFullYear()} PRIGMA. Todos los derechos reservados.</p>
+            <div className="mt-2 space-x-4">
+              <Link href="/privacy" className="hover:text-purple-400 transition-colors">Privacidad</Link>
+              <Link href="/terms" className="hover:text-purple-400 transition-colors">Términos</Link>
+            </div>
           </div>
         </div>
       </footer>
