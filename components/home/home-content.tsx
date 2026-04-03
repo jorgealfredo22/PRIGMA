@@ -121,30 +121,17 @@ export default function HomeContent() {
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
+            <nav className="hidden md:flex items-center space-x-6">
               <Link href="#servicios" className="text-gray-300 hover:text-white transition-colors relative group">
                 Servicios
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 transition-all duration-300 group-hover:w-full"></span>
               </Link>
-              <Link href="/servicios" className="text-gray-300 hover:text-white transition-colors relative group">
-                Detalles
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 transition-all duration-300 group-hover:w-full"></span>
-              </Link>
-              <Link href="/pricing" className="text-gray-300 hover:text-white transition-colors relative group">
-                Precios
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 transition-all duration-300 group-hover:w-full"></span>
-              </Link>
-              <Link href="#pilares" className="text-gray-300 hover:text-white transition-colors relative group">
-                Metodología
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 transition-all duration-300 group-hover:w-full"></span>
-              </Link>
-
-              <Link href="#equipo" className="text-gray-300 hover:text-white transition-colors relative group">
-                Equipo
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 transition-all duration-300 group-hover:w-full"></span>
-              </Link>
               <Link href="#proyectos" className="text-gray-300 hover:text-white transition-colors relative group">
                 Proyectos
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+              <Link href="#equipo" className="text-gray-300 hover:text-white transition-colors relative group">
+                Equipo
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 transition-all duration-300 group-hover:w-full"></span>
               </Link>
               <Link href="#contacto" className="text-gray-300 hover:text-white transition-colors relative group">
@@ -203,12 +190,6 @@ export default function HomeContent() {
                 className="text-gray-300 hover:text-white transition-colors py-2 border-b border-gray-800/50"
               >
                 Servicios
-              </Link>
-              <Link
-                href="#pilares"
-                className="text-gray-300 hover:text-white transition-colors py-2 border-b border-gray-800/50"
-              >
-                Metodología
               </Link>
               <Link
                 href="#proyectos"
@@ -370,7 +351,7 @@ export default function HomeContent() {
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
             </svg>
-            <p className="font-medium text-white text-lg">Tecnología de vanguardia para soluciones a medida</p>
+            <p className="font-medium text-white text-lg">Código limpio, entregas puntuales y soporte continuo</p>
           </div>
         </div>
       </div>
@@ -789,11 +770,11 @@ export default function HomeContent() {
                 </svg>
               </div>
               <h3 className="text-2xl font-bold text-center mb-4 relative">
-                Innovación
+                Escalabilidad
                 <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-12 h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 rounded-full"></span>
               </h3>
               <p className="text-center text-gray-300 mb-6">
-                Tecnologías de vanguardia para soluciones innovadoras que te posicionan a la cabeza de tu industria.
+                Soluciones que crecen con tu negocio. Arquitectura preparada para escalar sin rehacer todo desde cero.
               </p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center text-sm text-gray-400">
@@ -806,7 +787,7 @@ export default function HomeContent() {
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                   </svg>
-                  Implementación de IA
+                  Arquitectura modular y reutilizable
                 </li>
                 <li className="flex items-center text-sm text-gray-400">
                   <svg
@@ -818,7 +799,7 @@ export default function HomeContent() {
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                   </svg>
-                  Soluciones web3
+                  APIs preparadas para integraciones futuras
                 </li>
                 <li className="flex items-center text-sm text-gray-400">
                   <svg
@@ -830,7 +811,7 @@ export default function HomeContent() {
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                   </svg>
-                  Adopción de tecnologías emergentes
+                  Bases de datos optimizadas para crecimiento
                 </li>
               </ul>
             </motion.div>
@@ -858,7 +839,6 @@ export default function HomeContent() {
               </span>
             </motion.h3>
 
-            {/* Pricing Card */}
             <motion.div
               variants={fadeIn}
               className="max-w-lg mx-auto bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl overflow-hidden hover:border-purple-500/30 transition-all duration-500 hover:shadow-xl hover:shadow-purple-500/10"
@@ -936,8 +916,6 @@ export default function HomeContent() {
                   </li>
                 </ul>
 
-
-
                 <div className="mb-8">
                   <p className="text-sm text-gray-400 text-center mt-2">Proyectos personalizados según necesidades</p>
                 </div>
@@ -967,57 +945,6 @@ export default function HomeContent() {
                   </span>
                   <span className="relative invisible">Agendar consulta gratis</span>
                 </Link>
-
-                <div className="flex justify-center space-x-6 mt-8">
-                  <div className="text-gray-400 hover:text-purple-400 transition-colors">
-                    <svg
-                      className="w-6 h-6"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div className="text-gray-400 hover:text-purple-400 transition-colors">
-                    <svg
-                      className="w-6 h-6"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div className="text-gray-400 hover:text-purple-400 transition-colors">
-                    <svg
-                      className="w-6 h-6"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                      ></path>
-                    </svg>
-                  </div>
-                </div>
               </div>
             </motion.div>
           </motion.div>

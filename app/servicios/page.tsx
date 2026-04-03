@@ -1,5 +1,23 @@
 import Link from "next/link"
 import Image from "next/image"
+import type { Metadata } from "next"
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://prigma.com"
+
+export const metadata: Metadata = {
+  title: "Servicios de Desarrollo de Software | PRIGMA Colombia",
+  description: "Desarrollo web, aplicaciones móviles, sistemas ERP/CRM, integración y soporte técnico. Software a medida para empresas en Colombia. Consultoría gratuita.",
+  keywords: ["desarrollo web Colombia", "aplicaciones móviles", "ERP a medida", "CRM personalizado", "integración de sistemas", "soporte técnico software"],
+  openGraph: {
+    title: "Servicios | PRIGMA — Desarrollo de Software",
+    description: "Desarrollo web, apps móviles, ERP/CRM y más. Soluciones a medida para tu negocio.",
+    url: `${SITE_URL}/servicios`,
+    type: "website",
+  },
+  alternates: {
+    canonical: `${SITE_URL}/servicios`
+  }
+}
 
 export default function ServiciosPage() {
   return (
