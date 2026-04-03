@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 
 export default function PricingPage() {
   return (
@@ -9,8 +10,8 @@ export default function PricingPage() {
           <div className="flex justify-between items-center">
             <Link href="/" className="flex items-center">
               <div className="relative">
-                <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-600">
-                  <img src="/images/prigma_logo_sin_fondo.png" alt="logo prigma" style={{ width: '70px', height: '70px' }} />
+                <h1 className="text-2xl font-extrabold">
+                <Image src="/images/prigma_logo_sin_fondo.png" alt="Logo PRIGMA - Desarrollo de Software a Medida" width={70} height={70} />
                 </h1>
                 <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 rounded-full"></div>
               </div>
@@ -49,7 +50,7 @@ export default function PricingPage() {
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {/* Starter */}
             <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-8 hover:border-purple-500/30 transition-all duration-300">
-              <h3 className="text-xl font-bold mb-2">Starter</h3>
+              <h2 className="text-xl font-bold mb-2">Starter</h2>
               <p className="text-gray-400 text-sm mb-6">Landing pages y sitios web simples</p>
               <div className="mb-6">
                 <span className="text-4xl font-bold">Desde $2M</span>
@@ -90,7 +91,7 @@ export default function PricingPage() {
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-bold rounded-full">
                 MÁS POPULAR
               </div>
-              <h3 className="text-xl font-bold mb-2">Professional</h3>
+              <h2 className="text-xl font-bold mb-2">Professional</h2>
               <p className="text-gray-400 text-sm mb-6">Apps web y sistemas de gestión</p>
               <div className="mb-6">
                 <span className="text-4xl font-bold">Desde $5M</span>
@@ -132,7 +133,7 @@ export default function PricingPage() {
 
             {/* Enterprise */}
             <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-8 hover:border-purple-500/30 transition-all duration-300">
-              <h3 className="text-xl font-bold mb-2">Enterprise</h3>
+              <h2 className="text-xl font-bold mb-2">Enterprise</h2>
               <p className="text-gray-400 text-sm mb-6">Sistemas ERP, CRM y apps móviles</p>
               <div className="mb-6">
                 <span className="text-4xl font-bold">A medida</span>

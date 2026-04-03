@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
+import Image from "next/image"
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -97,9 +98,9 @@ export default function ContactPage() {
           <div className="flex justify-between items-center">
             <Link href="/" className="flex items-center">
               <div className="relative">
-                <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-600">
-                  <img src="/images/prigma_logo_sin_fondo.png" alt="logo prigma" style={{ width: '70px', height: '70px' }} />
-                </h1>
+                <div className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-600">
+                  <Image src="/images/prigma_logo_sin_fondo.png" alt="Logo PRIGMA - Desarrollo de Software a Medida" width={70} height={70} />
+                </div>
                 <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 rounded-full"></div>
               </div>
               <p className="text-xs ml-3 mt-1 text-gray-400 hidden sm:block tracking-wider">
