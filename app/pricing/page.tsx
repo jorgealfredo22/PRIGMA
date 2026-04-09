@@ -10,9 +10,7 @@ export default function PricingPage() {
           <div className="flex justify-between items-center">
             <Link href="/" className="flex items-center">
               <div className="relative">
-                <h1 className="text-2xl font-extrabold">
                 <Image src="/images/prigma_logo_sin_fondo.png" alt="Logo PRIGMA - Desarrollo de Software a Medida" width={70} height={70} />
-                </h1>
                 <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 rounded-full"></div>
               </div>
               <p className="text-xs ml-3 mt-1 text-gray-400 hidden sm:block tracking-wider">
