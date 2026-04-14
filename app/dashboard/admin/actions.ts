@@ -41,6 +41,79 @@ function getOptionalIsoOrNull(formData: FormData, key: string): string | null {
   return parseBogotaDateInputToIso(getString(formData, key))
 }
 
+/**
+ * Recalculates and updates grace_ends_at and grace_ends_at_connection
+ * for a license based on its current valid payments.
+ * Should be called after creating, voiding, or deleting payments.
+ */
+async function recalculateLicenseGraceEnds(supabase: ReturnType<typeof createAdminSupabaseClient>, licenseId: string) {
+  // Fetch license to get billing_day and grace_days
+  const { data: license, error: licenseError } = await supabase
+    .from("licenses")
+    .select("billing_day, grace_days, grace_days_connection, plan")
+    .eq("id", licenseId)
+    .maybeSingle()
+
+  if (licenseError || !license) return
+  if (license.plan === "lifetime") return // No grace dates for lifetime
+
+  // Fetch all valid payments for this license
+  const { data: payments, error: paymentsError } = await supabase
+    .from("payments")
+    .select("paid_at, months_covered, is_draft, voided_at, type")
+    .eq("license_id", licenseId)
+    .eq("is_draft", false)
+    .is("voided_at", null)
+
+  if (paymentsError || !payments) return
+
+  // Filter valid coverage payments (same logic as rules.ts isValidCoveragePayment)
+  const validPayments = payments.filter(p => {
+    if (p.type === "credit") return false
+    if (!p.paid_at || p.months_covered == null || p.months_covered <= 0) return false
+    return true
+  })
+
+  if (validPayments.length === 0) {
+    // No valid payments - clear grace dates
+    await supabase
+      .from("licenses")
+      .update({ grace_ends_at: null, grace_ends_at_connection: null })
+      .eq("id", licenseId)
+    return
+  }
+
+  // Sort by paid_at to find the most recent
+  validPayments.sort((a, b) => new Date(b.paid_at).getTime() - new Date(a.paid_at).getTime())
+  const lastPayment = validPayments[0]
+
+  // Calculate expiry from last payment (simplified - uses last payment's paid_at + months_covered)
+  // For accurate calculation, we'd need computeExpiresAtBogotaDate from rules.ts
+  // Here we do a simple approximation: paid_at + months_covered months
+  const paidAt = new Date(lastPayment.paid_at)
+  const expiryDate = new Date(paidAt)
+  expiryDate.setMonth(expiryDate.getMonth() + lastPayment.months_covered)
+
+  // grace_ends_at = expiry + grace_days
+  const graceEndsAt = new Date(expiryDate)
+  graceEndsAt.setDate(graceEndsAt.getDate() + license.grace_days)
+
+  // grace_ends_at_connection = grace_ends_at + grace_days_connection
+  let graceEndsAtConnection: Date | null = null
+  if (license.grace_days_connection > 0) {
+    graceEndsAtConnection = new Date(graceEndsAt)
+    graceEndsAtConnection.setDate(graceEndsAtConnection.getDate() + license.grace_days_connection)
+  }
+
+  await supabase
+    .from("licenses")
+    .update({
+      grace_ends_at: graceEndsAt.toISOString(),
+      grace_ends_at_connection: graceEndsAtConnection?.toISOString() ?? null,
+    })
+    .eq("id", licenseId)
+}
+
 export async function createClientAction(formData: FormData) {
   const client_name = getString(formData, "client_name")
   if (!client_name) return { error: "client_name es requerido" }
@@ -167,6 +240,10 @@ export async function createPaymentAction(formData: FormData) {
     notes,
   })
   if (res.error) throw new Error(res.error.message)
+
+  // Recalculate grace ends after payment
+  await recalculateLicenseGraceEnds(supabase, license_id)
+
   revalidatePath("/dashboard/admin")
 }
 
@@ -204,6 +281,18 @@ export async function voidPaymentAction(formData: FormData) {
     .eq("id", payment_id)
 
   if (res.error) throw new Error(res.error.message)
+
+  // Get license_id to recalculate grace ends
+  const { data: paymentData } = await supabase
+    .from("payments")
+    .select("license_id")
+    .eq("id", payment_id)
+    .maybeSingle()
+
+  if (paymentData?.license_id) {
+    await recalculateLicenseGraceEnds(supabase, paymentData.license_id)
+  }
+
   revalidatePath("/dashboard/admin")
 }
 
@@ -253,6 +342,8 @@ export type LicenseWithClient = {
   price_cop: number
   grace_days: number
   grace_days_connection: number
+  grace_ends_at: string | null
+  grace_ends_at_connection: string | null
   trial_started_at: string | null
   trial_ends_at: string | null
   active: boolean

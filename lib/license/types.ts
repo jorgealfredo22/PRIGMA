@@ -25,6 +25,8 @@ export interface LicenseRecord {
   price_cop: number
   grace_days: number
   grace_days_connection: number
+  grace_ends_at: string | Date | null
+  grace_ends_at_connection: string | Date | null
   trial_started_at: string | Date | null
   trial_ends_at: string | Date | null
   active: boolean
@@ -60,6 +62,8 @@ export interface LicenseSnapshot {
     days: number
     baseYMD: YMD | null
     endsYMD: YMD | null
+    connectionDays: number
+    connectionEndsYMD: YMD | null
   }
   coverage: {
     hasValidCoverage: boolean

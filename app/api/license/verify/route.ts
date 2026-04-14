@@ -65,7 +65,7 @@ export async function GET(req: Request): Promise<Response> {
   const licenseRes = await supabase
     .from("licenses")
     .select(
-      "id, plan, billing_day, price_cop, grace_days, grace_days_connection, trial_started_at, trial_ends_at, active",
+      "id, plan, billing_day, price_cop, grace_days, grace_days_connection, grace_ends_at, grace_ends_at_connection, trial_started_at, trial_ends_at, active",
     )
     .eq("license_key", parsed.licenseKey)
     .maybeSingle()

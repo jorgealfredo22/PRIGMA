@@ -89,6 +89,86 @@ function getSortedCoveragePayments(payments: PaymentRecord[]):
   return valid
 }
 
+/**
+ * Checks if the most recent payment (by paid_at) is voided.
+ * Returns the previous valid payment's coverage expiry if so.
+ */
+function getLastVoidedPaymentInfo(
+  payments: PaymentRecord[],
+  billingDay: number,
+): { isLastVoided: boolean; previousExpiry: YMD | null } {
+  const sorted = getSortedCoveragePayments(payments)
+  if (sorted.length === 0) {
+    return { isLastVoided: false, previousExpiry: null }
+  }
+
+  const last = sorted[sorted.length - 1]
+
+  // last.voided_at is already filtered out by isValidCoveragePayment,
+  // so if last exists and is valid, it's not voided
+  // But we need to check ALL payments sorted by paid_at for voided status
+  // Re-sort including voided to find the actual last payment
+  const allByPaidAt = [...payments].filter(p => p.paid_at != null).sort((a, b) => {
+    const da = toDate(a.paid_at)!.getTime()
+    const db = toDate(b.paid_at)!.getTime()
+    return db - da // DESC - most recent first
+  })
+
+  if (allByPaidAt.length === 0) {
+    return { isLastVoided: false, previousExpiry: null }
+  }
+
+  const mostRecent = allByPaidAt[0]
+  if (mostRecent.voided_at != null) {
+    // Most recent payment is voided - find the previous valid one
+    if (sorted.length === 0) {
+      return { isLastVoided: true, previousExpiry: null }
+    }
+    // The sorted array has valid payments in ASC order
+    // The last valid payment is our coverage anchor
+    const lastValid = sorted[sorted.length - 1]
+    const lastValidPaidAt = toDate(lastValid.paid_at)!
+    const lastValidYMD = getBogotaYMD(lastValidPaidAt)
+    const previousExpiry = monthsJump(lastValidYMD, lastValid.months_covered, billingDay)
+    return { isLastVoided: true, previousExpiry }
+  }
+
+  return { isLastVoided: false, previousExpiry: null }
+}
+
+/**
+ * Compute grace end dates from DB fields if available, otherwise recalculate.
+ */
+function getGraceEndsAt(
+  license: LicenseRecord,
+  expiresAtYMD: YMD | null,
+): YMD | null {
+  // Use DB field if available
+  if (license.grace_ends_at) {
+    const dbDate = toDate(license.grace_ends_at)
+    if (dbDate) return getBogotaYMD(dbDate)
+  }
+  // Fallback: recalculate
+  if (expiresAtYMD == null) return null
+  return addDaysYMD(expiresAtYMD, license.grace_days)
+}
+
+function getGraceEndsAtConnection(
+  license: LicenseRecord,
+  graceEndsAt: YMD | null,
+): YMD | null {
+  if (license.grace_days_connection <= 0) return null
+
+  // Use DB field if available
+  if (license.grace_ends_at_connection) {
+    const dbDate = toDate(license.grace_ends_at_connection)
+    if (dbDate) return getBogotaYMD(dbDate)
+  }
+  // Fallback: recalculate from graceEndsAt
+  if (graceEndsAt == null) return null
+  return addDaysYMD(graceEndsAt, license.grace_days_connection)
+}
+
 function monthsJump(
   base: YMD,
   monthsToAdd: number,
@@ -165,7 +245,7 @@ export function computeLicenseStatus(
       now: { at: now, bogotaYMD: nowBogotaYMD },
       expiresAt: { ymd: null, date: null },
       trial: { startedAt: toDate(license.trial_started_at), endsAt: toDate(license.trial_ends_at) },
-      grace: { days: license.grace_days, baseYMD: null, endsYMD: null },
+      grace: { days: license.grace_days, baseYMD: null, endsYMD: null, connectionDays: license.grace_days_connection, connectionEndsYMD: null },
       coverage: { hasValidCoverage: false },
     }
   }
@@ -176,25 +256,51 @@ export function computeLicenseStatus(
       now: { at: now, bogotaYMD: nowBogotaYMD },
       expiresAt: { ymd: null, date: null },
       trial: { startedAt: toDate(license.trial_started_at), endsAt: toDate(license.trial_ends_at) },
-      grace: { days: license.grace_days, baseYMD: null, endsYMD: null },
+      grace: { days: license.grace_days, baseYMD: null, endsYMD: null, connectionDays: license.grace_days_connection, connectionEndsYMD: null },
       coverage: { hasValidCoverage: true },
     }
   }
 
-  const expiresAt = computeExpiresAtBogotaDate(license, payments)
-  const hasValidCoverage = expiresAt.ymd != null
+  // Check if last payment was voided and recalculate if needed
+  const { isLastVoided, previousExpiry } = getLastVoidedPaymentInfo(
+    payments,
+    license.billing_day ?? 1,
+  )
 
+  let expiresAt = computeExpiresAtBogotaDate(license, payments)
+  let hasValidCoverage = expiresAt.ymd != null
+
+  // If last payment was voided, use previous expiry instead
+  if (isLastVoided && previousExpiry != null) {
+    expiresAt = { ymd: previousExpiry, date: ymdToUtcDateMidnight(previousExpiry) }
+    hasValidCoverage = compareYMD(nowBogotaYMD, previousExpiry) <= 0
+  } else if (isLastVoided && previousExpiry == null) {
+    // Last payment voided and no previous coverage
+    expiresAt = { ymd: null, date: null }
+    hasValidCoverage = false
+  }
+
+  // ACTIVE: within expiry date
   if (expiresAt.ymd && compareYMD(nowBogotaYMD, expiresAt.ymd) <= 0) {
+    const graceEndsAt = getGraceEndsAt(license, expiresAt.ymd)
+    const graceConnectionEndsAt = getGraceEndsAtConnection(license, graceEndsAt)
     return {
       status: "active",
       now: { at: now, bogotaYMD: nowBogotaYMD },
       expiresAt,
       trial: { startedAt: toDate(license.trial_started_at), endsAt: toDate(license.trial_ends_at) },
-      grace: { days: license.grace_days, baseYMD: expiresAt.ymd, endsYMD: addDaysYMD(expiresAt.ymd, license.grace_days) },
+      grace: {
+        days: license.grace_days,
+        baseYMD: expiresAt.ymd,
+        endsYMD: graceEndsAt,
+        connectionDays: license.grace_days_connection,
+        connectionEndsYMD: graceConnectionEndsAt,
+      },
       coverage: { hasValidCoverage },
     }
   }
 
+  // TRIAL: still in trial period
   const trialEndsAt = toDate(license.trial_ends_at)
   const trialStartedAt = toDate(license.trial_started_at)
   if (trialEndsAt && now.getTime() < trialEndsAt.getTime()) {
@@ -203,29 +309,59 @@ export function computeLicenseStatus(
       now: { at: now, bogotaYMD: nowBogotaYMD },
       expiresAt,
       trial: { startedAt: trialStartedAt, endsAt: trialEndsAt },
-      grace: { days: license.grace_days, baseYMD: null, endsYMD: null },
+      grace: { days: license.grace_days, baseYMD: null, endsYMD: null, connectionDays: license.grace_days_connection, connectionEndsYMD: null },
       coverage: { hasValidCoverage },
     }
   }
 
-  // Grace base:
-  // - If we had coverage, grace starts after expiresAt YMD.
-  // - If no coverage but trial existed and ended, grace starts after the trial end (Bogota YMD).
+  // GRACE PERIOD: after expiry but within grace periods
+  // Grace base: expiresAt or trial end (whichever is later)
   const graceBase = expiresAt.ymd ?? (trialEndsAt ? getBogotaYMD(trialEndsAt) : null)
+
   if (graceBase) {
-    const graceEnds = addDaysYMD(graceBase, license.grace_days)
-    if (compareYMD(nowBogotaYMD, graceEnds) <= 0) {
+    const graceEndsAt = getGraceEndsAt(license, graceBase)
+    const graceConnectionEndsAt = getGraceEndsAtConnection(license, graceEndsAt)
+
+    // Standard grace period (grace_days)
+    if (graceEndsAt && compareYMD(nowBogotaYMD, graceEndsAt) <= 0) {
       return {
         status: "grace_period",
         now: { at: now, bogotaYMD: nowBogotaYMD },
         expiresAt,
         trial: { startedAt: trialStartedAt, endsAt: trialEndsAt },
-        grace: { days: license.grace_days, baseYMD: graceBase, endsYMD: graceEnds },
+        grace: {
+          days: license.grace_days,
+          baseYMD: graceBase,
+          endsYMD: graceEndsAt,
+          connectionDays: license.grace_days_connection,
+          connectionEndsYMD: graceConnectionEndsAt,
+        },
+        coverage: { hasValidCoverage },
+      }
+    }
+
+    // Connection grace period (grace_days_connection) - only if configured and standard grace exhausted
+    if (license.grace_days_connection > 0 && graceConnectionEndsAt && compareYMD(nowBogotaYMD, graceConnectionEndsAt) <= 0) {
+      return {
+        status: "grace_period",
+        now: { at: now, bogotaYMD: nowBogotaYMD },
+        expiresAt,
+        trial: { startedAt: trialStartedAt, endsAt: trialEndsAt },
+        grace: {
+          days: license.grace_days,
+          baseYMD: graceBase,
+          endsYMD: graceEndsAt,
+          connectionDays: license.grace_days_connection,
+          connectionEndsYMD: graceConnectionEndsAt,
+        },
         coverage: { hasValidCoverage },
       }
     }
   }
 
+  // SUSPENDED: all grace periods exhausted
+  const graceEndsAt = graceBase ? getGraceEndsAt(license, graceBase) : null
+  const graceConnectionEndsAt = graceBase ? getGraceEndsAtConnection(license, graceEndsAt) : null
   return {
     status: "suspended",
     now: { at: now, bogotaYMD: nowBogotaYMD },
@@ -234,7 +370,9 @@ export function computeLicenseStatus(
     grace: {
       days: license.grace_days,
       baseYMD: graceBase,
-      endsYMD: graceBase ? addDaysYMD(graceBase, license.grace_days) : null,
+      endsYMD: graceEndsAt,
+      connectionDays: license.grace_days_connection,
+      connectionEndsYMD: graceConnectionEndsAt,
     },
     coverage: { hasValidCoverage },
   }
