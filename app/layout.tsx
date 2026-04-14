@@ -3,6 +3,7 @@ import "./globals.css"
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import SchemaMarkup from "@/components/schema-markup"
+import { Toaster } from "@/components/ui/sonner"
 import type { Metadata } from "next"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -84,6 +85,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
           {children}
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   )

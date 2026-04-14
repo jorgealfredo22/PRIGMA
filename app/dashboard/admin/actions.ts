@@ -4,19 +4,8 @@ import "server-only"
 
 import { randomUUID } from "node:crypto"
 import { revalidatePath } from "next/cache"
-import { cookies } from "next/headers"
-import { notFound } from "next/navigation"
 
 import { createAdminSupabaseClient } from "@/lib/supabase/admin"
-
-const DASHBOARD_ADMIN_COOKIE = "prigma_dashboard_token"
-
-async function assertAdmin() {
-  const expected = process.env.DASHBOARD_TOKEN ?? ""
-  const cookieStore = await cookies()
-  const actual = cookieStore.get(DASHBOARD_ADMIN_COOKIE)?.value ?? ""
-  if (!expected || actual !== expected) notFound()
-}
 
 function getString(formData: FormData, key: string): string {
   return String(formData.get(key) ?? "").trim()
@@ -53,9 +42,8 @@ function getOptionalIsoOrNull(formData: FormData, key: string): string | null {
 }
 
 export async function createClientAction(formData: FormData) {
-  await assertAdmin()
   const client_name = getString(formData, "client_name")
-  if (!client_name) throw new Error("client_name is required")
+  if (!client_name) return { error: "client_name es requerido" }
 
   const supabase = createAdminSupabaseClient()
   const res = await supabase.from("clients").insert({
@@ -72,7 +60,6 @@ export async function createClientAction(formData: FormData) {
 }
 
 export async function createLicenseAction(formData: FormData) {
-  await assertAdmin()
   const client_id = getString(formData, "client_id")
   if (!client_id) throw new Error("client_id is required")
 
@@ -120,7 +107,7 @@ export async function createLicenseAction(formData: FormData) {
   })
 
   if (res.error) throw new Error(res.error.message)
-  revalidatePath("/dashboard/admin")
+  revalidatePath("/dashboard/admin/licenses")
 }
 
 function getRequiredNonNegSafeInt(formData: FormData, key: string): number {
@@ -142,7 +129,6 @@ function getOptionalIsoOrThrowEmpty(formData: FormData, key: string): string | n
 }
 
 export async function createPaymentAction(formData: FormData) {
-  await assertAdmin()
   const license_id = getString(formData, "license_id")
   if (!license_id) throw new Error("license_id is required")
 
@@ -185,7 +171,6 @@ export async function createPaymentAction(formData: FormData) {
 }
 
 export async function voidPaymentAction(formData: FormData) {
-  await assertAdmin()
   const payment_id = getString(formData, "payment_id")
   if (!payment_id) throw new Error("payment_id is required")
 
@@ -223,7 +208,6 @@ export async function voidPaymentAction(formData: FormData) {
 }
 
 export async function setTrialAction(formData: FormData) {
-  await assertAdmin()
   const license_id = getString(formData, "license_id")
   if (!license_id) throw new Error("license_id is required")
 
@@ -246,7 +230,6 @@ export async function setTrialAction(formData: FormData) {
 }
 
 export async function clearTrialAction(formData: FormData) {
-  await assertAdmin()
   const license_id = getString(formData, "license_id")
   if (!license_id) throw new Error("license_id is required")
 
@@ -257,4 +240,183 @@ export async function clearTrialAction(formData: FormData) {
     .eq("id", license_id)
   if (res.error) throw new Error(res.error.message)
   revalidatePath("/dashboard/admin")
+}
+
+// Phase 4: License List & CRUD actions
+
+export type LicenseWithClient = {
+  id: string
+  client_id: string
+  license_key: string
+  plan: "monthly" | "annual" | "lifetime"
+  billing_day: number | null
+  price_cop: number
+  grace_days: number
+  grace_days_connection: number
+  trial_started_at: string | null
+  trial_ends_at: string | null
+  active: boolean
+  created_at: string
+  clients: {
+    client_name: string
+  } | null
+}
+
+export type LicenseListParams = {
+  plan?: string
+  status?: "active" | "inactive"
+  search?: string
+  page?: number
+  perPage?: number
+}
+
+export async function listLicensesAction(params: LicenseListParams) {
+  const supabase = createAdminSupabaseClient()
+
+  let query = supabase
+    .from("licenses")
+    .select("*, clients(client_name)", { count: "exact" })
+    .order("created_at", { ascending: false })
+
+  // Filter by plan
+  if (params.plan && params.plan !== "all") {
+    query = query.eq("plan", params.plan)
+  }
+
+  // Filter by status
+  if (params.status === "active") {
+    query = query.eq("active", true)
+  } else if (params.status === "inactive") {
+    query = query.eq("active", false)
+  }
+
+  // Search by license_key or client_name
+  if (params.search) {
+    query = query.or(
+      `license_key.ilike.%${params.search}%,clients.client_name.ilike.%${params.search}%`
+    )
+  }
+
+  // Pagination
+  const page = Math.max(1, params.page ?? 1)
+  const perPage = params.perPage ?? 10
+  const from = (page - 1) * perPage
+  const to = from + perPage - 1
+
+  query = query.range(from, to)
+
+  const { data, error, count } = await query
+
+  if (error) throw new Error(error.message)
+
+  return {
+    licenses: (data as LicenseWithClient[]) ?? [],
+    totalCount: count ?? 0,
+    page,
+    perPage,
+    totalPages: Math.ceil((count ?? 0) / perPage),
+  }
+}
+
+export async function updateLicenseAction(formData: FormData) {
+  const license_id = getString(formData, "license_id")
+  if (!license_id) throw new Error("license_id is required")
+
+  const planRaw = getString(formData, "plan")
+  if (planRaw !== "monthly" && planRaw !== "annual" && planRaw !== "lifetime") {
+    throw new Error("invalid plan")
+  }
+  const plan = planRaw
+
+  const billing_day = getOptionalInt(formData, "billing_day")
+  if (plan === "lifetime") {
+    // billing_day must be null for lifetime
+  } else {
+    if (billing_day == null) throw new Error("billing_day is required for non-lifetime")
+    if (billing_day < 1 || billing_day > 31) throw new Error("billing_day must be 1..31")
+  }
+
+  const price_cop = getOptionalInt(formData, "price_cop") ?? 0
+  const grace_days = getOptionalInt(formData, "grace_days") ?? 0
+  const grace_days_connection = getOptionalInt(formData, "grace_days_connection") ?? 0
+
+  const trial_started_at = getOptionalIsoOrNull(formData, "trial_started_at")
+  const trial_ends_at = getOptionalIsoOrNull(formData, "trial_ends_at")
+  if ((trial_started_at && !trial_ends_at) || (!trial_started_at && trial_ends_at)) {
+    throw new Error("trial_started_at and trial_ends_at must be both set or both empty")
+  }
+
+  const activeRaw = getString(formData, "active")
+  const active = activeRaw === "on" || activeRaw === "true" || activeRaw === "1"
+
+  const supabase = createAdminSupabaseClient()
+  const res = await supabase
+    .from("licenses")
+    .update({
+      plan,
+      billing_day: plan === "lifetime" ? null : billing_day,
+      price_cop,
+      grace_days,
+      grace_days_connection,
+      trial_started_at,
+      trial_ends_at,
+      active,
+    })
+    .eq("id", license_id)
+
+  if (res.error) throw new Error(res.error.message)
+  revalidatePath("/dashboard/admin/licenses")
+}
+
+export async function toggleLicenseActiveAction(formData: FormData) {
+  const license_id = getString(formData, "license_id")
+  if (!license_id) throw new Error("license_id is required")
+
+  const supabase = createAdminSupabaseClient()
+
+  // First, get the current license to toggle its active status
+  const { data: license, error: fetchError } = await supabase
+    .from("licenses")
+    .select("active")
+    .eq("id", license_id)
+    .maybeSingle()
+
+  if (fetchError) throw new Error(fetchError.message)
+  if (!license) throw new Error("license not found")
+
+  const res = await supabase
+    .from("licenses")
+    .update({ active: !license.active })
+    .eq("id", license_id)
+
+  if (res.error) throw new Error(res.error.message)
+  revalidatePath("/dashboard/admin/licenses")
+}
+
+export async function getLicenseAction(licenseId: string) {
+  const supabase = createAdminSupabaseClient()
+
+  const { data, error } = await supabase
+    .from("licenses")
+    .select("*, clients(*)")
+    .eq("id", licenseId)
+    .maybeSingle()
+
+  if (error) throw new Error(error.message)
+  if (!data) throw new Error("license not found")
+
+  return data
+}
+
+export async function getClientsForSelectAction() {
+  const supabase = createAdminSupabaseClient()
+
+  const { data, error } = await supabase
+    .from("clients")
+    .select("id, client_name")
+    .order("client_name", { ascending: true })
+
+  if (error) throw new Error(error.message)
+
+  return data ?? []
 }
