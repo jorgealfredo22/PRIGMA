@@ -1,5 +1,6 @@
 import { createAdminSupabaseClient } from "@/lib/supabase/admin"
 import { getCurrentUser } from "@/lib/auth"
+import { ClientDialog } from "../_components/client-dialog"
 
 export default async function ClientsPage() {
   await getCurrentUser()
@@ -15,6 +16,7 @@ export default async function ClientsPage() {
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-semibold">Clientes</h1>
+        <ClientDialog />
       </div>
 
       <div className="rounded-md border">
