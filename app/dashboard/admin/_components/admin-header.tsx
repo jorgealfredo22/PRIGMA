@@ -1,7 +1,6 @@
 "use client"
 
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { LogOut } from "lucide-react"
 
 interface AdminHeaderProps {
   userEmail?: string
@@ -25,15 +24,6 @@ export function AdminHeader({ userEmail, userInitials }: AdminHeaderProps) {
         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-medium">
           {userInitials || "A"}
         </div>
-        
-        <form action="/api/auth/logout" method="POST">
-          <button
-            type="submit"
-            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
-          >
-            <LogOut className="h-4 w-4" />
-          </button>
-        </form>
       </div>
     </header>
   )
