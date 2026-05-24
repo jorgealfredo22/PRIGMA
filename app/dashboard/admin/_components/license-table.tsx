@@ -3,22 +3,15 @@
 import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { ColumnDef } from "@tanstack/react-table"
 import { toast } from "sonner"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+
+import { DataTable } from "@/components/ui/data-table"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
 import { toggleLicenseActiveAction } from "../actions"
 import { LicenseDialog } from "./license-dialog"
-import { Eye, Edit, Power, Loader2 } from "lucide-react"
+import { Eye, Power, Loader2 } from "lucide-react"
 import {
   Tooltip,
   TooltipContent,
@@ -28,7 +21,6 @@ import {
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -64,6 +56,7 @@ interface LicenseTableProps {
   currentPage: number
   perPage: number
   totalPages: number
+  clients: Client[]
 }
 
 function formatCOP(amount: number): string {
@@ -89,11 +82,11 @@ function truncateLicenseKey(key: string, maxLength: number = 20): string {
 }
 
 function PlanBadge({ plan }: { plan: string }) {
-  const planVariant = plan === "monthly" ? "default" : plan === "annual" ? "secondary" : "outline"
-  const planLabel = plan === "monthly" ? "Mensual" : plan === "annual" ? "Anual" : "Lifetime"
-  return (
-    <Badge variant={planVariant}>{planLabel}</Badge>
-  )
+  const planVariant =
+    plan === "monthly" ? "default" : plan === "annual" ? "secondary" : "outline"
+  const planLabel =
+    plan === "monthly" ? "Mensual" : plan === "annual" ? "Anual" : "Lifetime"
+  return <Badge variant={planVariant}>{planLabel}</Badge>
 }
 
 function StatusBadge({ active }: { active: boolean }) {
@@ -104,59 +97,57 @@ function StatusBadge({ active }: { active: boolean }) {
   )
 }
 
+function EmptyState() {
+  return (
+    <div className="flex flex-col items-center justify-center py-8 text-center">
+      <div className="text-muted-foreground mb-2">
+        <svg
+          className="mx-auto h-10 w-10"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+          />
+        </svg>
+      </div>
+      <h3 className="font-medium">No hay licencias aún</h3>
+      <p className="text-sm text-muted-foreground mt-1">
+        Comienza creando tu primera licencia
+      </p>
+    </div>
+  )
+}
+
 export function LicenseTable({
   licenses,
   totalCount,
   currentPage,
   perPage,
   totalPages,
+  clients,
 }: LicenseTableProps) {
   const [isPending, startTransition] = useTransition()
   const [togglingId, setTogglingId] = useState<string | null>(null)
   const router = useRouter()
-
-  const clients: Client[] = []
-
-  if (licenses.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center py-12 text-center">
-        <div className="text-muted-foreground mb-4">
-          <svg
-            className="mx-auto h-12 w-12"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
-            />
-          </svg>
-        </div>
-        <h3 className="text-lg font-medium">No hay licencias aún</h3>
-        <p className="text-muted-foreground mt-1">
-          Comienza creando tu primera licencia
-        </p>
-      </div>
-    )
-  }
-
-  const startItem = (currentPage - 1) * perPage + 1
-  const endItem = Math.min(currentPage * perPage, totalCount)
 
   async function handleToggleActive(license: License) {
     const formData = new FormData()
     formData.append("license_id", license.id)
 
     setTogglingId(license.id)
-    toast.loading(` ${license.active ? "Desactivando" : "Activando"} licencia...`)
+    toast.loading(`${license.active ? "Desactivando" : "Activando"} licencia...`)
 
     startTransition(async () => {
       try {
         await toggleLicenseActiveAction(formData)
-        toast.success(`Licencia ${license.active ? "desactivada" : "activada"} correctamente`)
+        toast.success(
+          `Licencia ${license.active ? "desactivada" : "activada"} correctamente`
+        )
         router.refresh()
       } catch (err) {
         const msg = err instanceof Error ? err.message : "Error desconocido"
@@ -174,112 +165,153 @@ export function LicenseTable({
     return `/dashboard/admin/licenses?${params.toString()}`
   }
 
+  const columns: ColumnDef<License>[] = [
+    {
+      accessorKey: "client_name",
+      header: "Cliente",
+      cell: ({ row }) => (
+        <span className="font-medium">
+          {row.original.clients?.client_name || "N/A"}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "license_key",
+      header: "License Key",
+      cell: ({ row }) => {
+        const key = row.original.license_key
+        return (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <code className="text-xs bg-muted px-2 py-1 rounded font-mono cursor-default">
+                  {truncateLicenseKey(key)}
+                </code>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="font-mono text-xs">{key}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )
+      },
+    },
+    {
+      accessorKey: "plan",
+      header: "Plan",
+      cell: ({ row }) => <PlanBadge plan={row.original.plan} />,
+    },
+    {
+      accessorKey: "active",
+      header: "Estado",
+      cell: ({ row }) => <StatusBadge active={row.original.active} />,
+    },
+    {
+      accessorKey: "price_cop",
+      header: "Precio",
+      cell: ({ row }) => formatCOP(row.original.price_cop),
+    },
+    {
+      accessorKey: "billing_day",
+      header: "Día Fact.",
+      cell: ({ row }) => row.original.billing_day || "-",
+    },
+    {
+      accessorKey: "created_at",
+      header: "Creado",
+      cell: ({ row }) => (
+        <span className="text-xs text-muted-foreground">
+          {formatDate(row.original.created_at)}
+        </span>
+      ),
+    },
+    {
+      id: "actions",
+      header: () => <div className="text-right">Acciones</div>,
+      cell: ({ row }) => {
+        const license = row.original
+        return (
+          <div className="flex items-center justify-end gap-1">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" asChild>
+                    <Link href={`/dashboard/admin/licenses/${license.id}`}>
+                      <Eye className="h-4 w-4" />
+                    </Link>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Ver detalle</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleToggleActive(license)}
+                    disabled={isPending || togglingId === license.id}
+                    className={
+                      togglingId === license.id
+                        ? "text-muted-foreground"
+                        : license.active
+                        ? "text-yellow-600 hover:text-yellow-700"
+                        : "text-green-600 hover:text-green-700"
+                    }
+                  >
+                    {togglingId === license.id ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Power className="h-4 w-4" />
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>
+                    {togglingId === license.id
+                      ? "Procesando..."
+                      : license.active
+                      ? "Desactivar"
+                      : "Activar"}
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <LicenseDialog license={license} clients={clients} />
+          </div>
+        )
+      },
+    },
+  ]
+
+  if (licenses.length === 0 && totalCount === 0) {
+    return (
+      <div className="rounded-md border">
+        <EmptyState />
+      </div>
+    )
+  }
+
+  const startItem = (currentPage - 1) * perPage + 1
+  const endItem = Math.min(currentPage * perPage, totalCount)
+
   return (
     <div className="space-y-4">
       <div className="text-sm text-muted-foreground">
         Mostrando {startItem}-{endItem} de {totalCount} licencias
       </div>
 
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[300px]">Cliente</TableHead>
-              <TableHead>License Key</TableHead>
-              <TableHead>Plan</TableHead>
-              <TableHead>Estado</TableHead>
-              <TableHead>Precio</TableHead>
-              <TableHead>Día Fact.</TableHead>
-              <TableHead>Creado</TableHead>
-              <TableHead className="text-right">Acciones</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {licenses.map((license) => (
-              <TableRow
-                key={license.id}
-                className={togglingId === license.id ? "opacity-50" : ""}
-              >
-                <TableCell className="font-medium">
-                  {license.clients?.client_name || "N/A"}
-                </TableCell>
-                <TableCell>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <code className="text-xs bg-muted px-2 py-1 rounded font-mono">
-                          {truncateLicenseKey(license.license_key)}
-                        </code>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="font-mono">{license.license_key}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </TableCell>
-                <TableCell>
-                  <PlanBadge plan={license.plan} />
-                </TableCell>
-                <TableCell>
-                  <StatusBadge active={license.active} />
-                </TableCell>
-                <TableCell>{formatCOP(license.price_cop)}</TableCell>
-                <TableCell>{license.billing_day || "-"}</TableCell>
-                <TableCell>{formatDate(license.created_at)}</TableCell>
-                <TableCell className="text-right">
-                  <div className="flex items-center justify-end gap-1">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button variant="ghost" size="icon" asChild>
-                            <Link href={`/dashboard/admin/licenses/${license.id}`}>
-                              <Eye className="h-4 w-4" />
-                            </Link>
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Ver detalle</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => handleToggleActive(license)}
-                            disabled={isPending || togglingId === license.id}
-                            className={
-                              togglingId === license.id
-                                ? "text-muted-foreground"
-                                : license.active
-                                ? "text-yellow-600 hover:text-yellow-700"
-                                : "text-green-600 hover:text-green-700"
-                            }
-                          >
-                            {togglingId === license.id ? (
-                              <Loader2 className="h-4 w-4 animate-spin" />
-                            ) : (
-                              <Power className="h-4 w-4" />
-                            )}
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>{togglingId === license.id ? "Procesando..." : license.active ? "Desactivar" : "Activar"}</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-
-                    <LicenseDialog license={license} clients={clients} />
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+      <DataTable
+        columns={columns}
+        data={licenses}
+        hidePagination
+        emptyState={<EmptyState />}
+      />
 
       {totalPages > 1 && (
         <Pagination>
@@ -293,7 +325,9 @@ export function LicenseTable({
                     router.push(buildPageUrl(currentPage - 1))
                   }
                 }}
-                className={currentPage <= 1 ? "pointer-events-none opacity-50" : ""}
+                className={
+                  currentPage <= 1 ? "pointer-events-none opacity-50" : ""
+                }
               />
             </PaginationItem>
 
@@ -335,7 +369,11 @@ export function LicenseTable({
                     router.push(buildPageUrl(currentPage + 1))
                   }
                 }}
-                className={currentPage >= totalPages ? "pointer-events-none opacity-50" : ""}
+                className={
+                  currentPage >= totalPages
+                    ? "pointer-events-none opacity-50"
+                    : ""
+                }
               />
             </PaginationItem>
           </PaginationContent>

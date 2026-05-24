@@ -103,6 +103,7 @@ export default async function AdminLicensesPage({
         currentPage={page}
         perPage={perPage}
         totalPages={totalPages}
+        clients={clients ?? []}
       />
     </div>
   )
