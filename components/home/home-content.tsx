@@ -540,7 +540,6 @@ export default function HomeContent() {
               <p className="text-gray-400 text-sm">
                 Nos contás tu idea o problema y te damos una propuesta clara sin compromiso.
               </p>
-              <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-0.5 bg-gradient-to-r from-purple-600/50 to-indigo-600/50"></div>
             </motion.div>
 
             {/* Step 2 */}
@@ -552,7 +551,6 @@ export default function HomeContent() {
               <p className="text-gray-400 text-sm">
                 Definimos funcionalidades, plazos y presupuesto. Todo por escrito, sin sorpresas.
               </p>
-              <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-0.5 bg-gradient-to-r from-purple-600/50 to-indigo-600/50"></div>
             </motion.div>
 
             {/* Step 3 */}
@@ -564,7 +562,6 @@ export default function HomeContent() {
               <p className="text-gray-400 text-sm">
                 Entregas incrementales cada 2 semanas para que veas el avance en tiempo real.
               </p>
-              <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-0.5 bg-gradient-to-r from-purple-600/50 to-indigo-600/50"></div>
             </motion.div>
 
             {/* Step 4 */}
