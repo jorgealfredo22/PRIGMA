@@ -275,10 +275,10 @@ export default function ContactPage() {
                       <div>
                         <h4 className="font-semibold">Email</h4>
                         <a
-                          href="mailto:info@prigma.com"
+                          href="mailto:contacto@prigma.net"
                           className="text-purple-400 hover:text-purple-300 transition-colors"
                         >
-                          info@prigma.com
+                          contacto@prigma.net
                         </a>
                       </div>
                     </div>

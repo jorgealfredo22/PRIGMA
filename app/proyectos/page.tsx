@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import Image from "next/image"
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://prigma.com"
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://prigma.net"
 
 export const metadata: Metadata = {
   title: "Proyectos y Portafolio | PRIGMA — Desarrollo de Software",

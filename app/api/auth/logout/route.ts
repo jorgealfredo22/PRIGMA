@@ -22,6 +22,6 @@ export async function POST(request: NextRequest) {
 
   await supabase.auth.signOut()
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://prigma.onrender.com"
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://prigma.net"
   return NextResponse.redirect(new URL("/", siteUrl), { status: 302 })
 }

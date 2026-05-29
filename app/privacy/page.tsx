@@ -23,12 +23,12 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="text-2xl font-semibold mb-3 text-white">4. Tus derechos</h2>
-            <p>De acuerdo con la Ley 1581 de 2012 de Colombia, tenés derecho a acceder, rectificar, actualizar y suprimir tus datos personales. Podés ejercer estos derechos escribiéndonos a info@prigma.com.</p>
+            <p>De acuerdo con la Ley 1581 de 2012 de Colombia, tenés derecho a acceder, rectificar, actualizar y suprimir tus datos personales. Podés ejercer estos derechos escribiéndonos a contacto@prigma.net.</p>
           </section>
 
           <section>
             <h2 className="text-2xl font-semibold mb-3 text-white">5. Contacto</h2>
-            <p>Para cualquier consulta sobre privacidad, escribinos a <a href="mailto:info@prigma.com" className="text-purple-400 hover:underline">info@prigma.com</a> o llamá al +57 (322) 483-9040.</p>
+            <p>Para cualquier consulta sobre privacidad, escribinos a <a href="mailto:contacto@prigma.net" className="text-purple-400 hover:underline">contacto@prigma.net</a> o llamá al +57 (322) 483-9040.</p>
           </section>
         </div>
       </div>

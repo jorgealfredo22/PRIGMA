@@ -3,8 +3,8 @@ export default function SchemaMarkup() {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "PRIGMA",
-    "url": "https://prigma.com",
-    "logo": "https://prigma.com/images/prigma_logo_sin_fondo.png",
+    "url": "https://prigma.net",
+    "logo": "https://prigma.net/images/prigma_logo_sin_fondo.png",
     "description": "Desarrollo de software personalizado para empresas en Colombia",
     "address": {
       "@type": "PostalAddress",
@@ -47,10 +47,10 @@ export default function SchemaMarkup() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "PRIGMA",
-    "image": "https://prigma.com/images/prigma_logo_sin_fondo.png",
-    "url": "https://prigma.com",
+    "image": "https://prigma.net/images/prigma_logo_sin_fondo.png",
+    "url": "https://prigma.net",
     "telephone": "+57-322-483-9040",
-    "email": "info@prigma.com",
+    "email": "contacto@prigma.net",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Sogamoso",
@@ -75,12 +75,12 @@ export default function SchemaMarkup() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "PRIGMA",
-    "url": "https://prigma.com",
+    "url": "https://prigma.net",
     "description": "Desarrollo de software a medida en Colombia",
     "inLanguage": "es-CO",
     "potentialAction": {
       "@type": "ContactAction",
-      "target": "https://prigma.com/contacto",
+      "target": "https://prigma.net/contacto",
       "name": "Contactar PRIGMA"
     }
   }

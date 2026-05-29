@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://prigma.com/sitemap.xml
+Sitemap: https://prigma.net/sitemap.xml
 
 # Allow AI crawlers
 User-agent: GPTBot

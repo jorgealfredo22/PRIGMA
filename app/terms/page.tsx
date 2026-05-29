@@ -38,7 +38,7 @@ export default function TermsPage() {
 
           <section>
             <h2 className="text-2xl font-semibold mb-3 text-white">7. Contacto</h2>
-            <p>Para consultas sobre estos términos, escribinos a <a href="mailto:info@prigma.com" className="text-purple-400 hover:underline">info@prigma.com</a>.</p>
+            <p>Para consultas sobre estos términos, escribinos a <a href="mailto:contacto@prigma.net" className="text-purple-400 hover:underline">contacto@prigma.net</a>.</p>
           </section>
         </div>
       </div>

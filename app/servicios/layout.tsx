@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://prigma.com"
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://prigma.net"
 
 export const metadata: Metadata = {
   title: "Servicios de Desarrollo de Software a Medida | PRIGMA",

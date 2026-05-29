@@ -1382,7 +1382,7 @@ export default function HomeContent() {
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-center">Email</h3>
-                <p className="text-center text-purple-400">info@prigma.com</p>
+                <p className="text-center text-purple-400">contacto@prigma.net</p>
               </div>
 
               <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:border-purple-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10 group">
