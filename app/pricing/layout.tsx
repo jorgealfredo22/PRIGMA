@@ -3,11 +3,11 @@ import type { Metadata } from "next"
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://prigma.net"
 
 export const metadata: Metadata = {
-  title: "Rangos de Precios | PRIGMA — Desarrollo de Software",
+  title: "Rangos de Precios",
   description: "Rangos orientativos de precios para desarrollo de software a medida. Desde $2M COP para sitios web simples. Contactanos para un presupuesto personalizado.",
   keywords: ["precios desarrollo software Colombia", "costo desarrollo web", "cuanto cuesta una app", "presupuesto software a medida"],
   openGraph: {
-    title: "Rangos de Precios | PRIGMA",
+    title: "Rangos de Precios",
     description: "Rangos orientativos para desarrollo web, apps y sistemas empresariales. Presupuesto sin compromiso.",
     url: `${SITE_URL}/pricing`,
     type: "website",

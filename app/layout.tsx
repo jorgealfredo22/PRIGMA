@@ -12,7 +12,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://prigma.net"
 
 export const metadata: Metadata = {
   title: {
-    default: "PRIGMA — Desarrollo de Software a Medida en Colombia",
+    default: "PRIGMA — Desarrollo de Software a Medida",
     template: "%s | PRIGMA"
   },
   description: "Desarrollo de software personalizado para empresas en Colombia. Apps web, móviles y sistemas ERP/CRM. Consultoría gratuita. +3 años de experiencia.",
@@ -22,7 +22,10 @@ export const metadata: Metadata = {
   publisher: "PRIGMA",
   metadataBase: new URL(SITE_URL),
   alternates: {
-    canonical: "/"
+    canonical: "/",
+    languages: {
+      "es-CO": SITE_URL,
+    }
   },
   icons: {
     icon: [
@@ -44,7 +47,7 @@ export const metadata: Metadata = {
     url: SITE_URL,
     images: [
       {
-        url: "/uploads/mockup-all-framed.png",
+        url: "/images/prigma_logo_sin_fondo.png",
         width: 1200,
         height: 630,
         alt: "PRIGMA - Desarrollo de Software a Medida"
@@ -54,7 +57,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "PRIGMA — Desarrollo de Software a Medida",
-    description: "Soluciones de software personalizadas para transformar tu negocio."
+    description: "Soluciones de software personalizadas para transformar tu negocio.",
+    images: ["/images/prigma_logo_sin_fondo.png"]
   },
   robots: {
     index: true,

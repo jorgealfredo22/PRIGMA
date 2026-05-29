@@ -85,6 +85,69 @@ export default function SchemaMarkup() {
     }
   }
 
+  const servicesSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Desarrollo de Software a Medida",
+    "provider": {
+      "@type": "Organization",
+      "name": "PRIGMA",
+      "url": "https://prigma.net",
+      "logo": "https://prigma.net/images/prigma_logo_sin_fondo.png",
+      "telephone": "+57-322-483-9040",
+      "email": "contacto@prigma.net",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Sogamoso",
+        "addressRegion": "Boyacá",
+        "addressCountry": "CO"
+      }
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "Colombia"
+    },
+    "serviceOutput": "Software personalizado para empresas",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Servicios de Desarrollo de Software",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Desarrollo Web y Móvil",
+            "description": "Aplicaciones web y móviles personalizadas con React, Next.js, Node.js"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Sistemas de Gestión Empresarial",
+            "description": "ERP y CRM a medida para centralizar la gestión de tu empresa"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Integración de Sistemas",
+            "description": "Conexión de plataformas y sistemas a través de APIs y middleware"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Soporte y Mantenimiento",
+            "description": "Soporte técnico continuo, actualizaciones y mantenimiento preventivo"
+          }
+        }
+      ]
+    }
+  }
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -145,7 +208,7 @@ export default function SchemaMarkup() {
       type="application/ld+json"
       dangerouslySetInnerHTML={{
         __html: JSON.stringify({
-          "@graph": [organizationSchema, localBusinessSchema, webSiteSchema, faqSchema]
+          "@graph": [organizationSchema, localBusinessSchema, webSiteSchema, servicesSchema, faqSchema]
         })
       }}
     />

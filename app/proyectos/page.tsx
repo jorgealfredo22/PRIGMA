@@ -5,11 +5,11 @@ import Image from "next/image"
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://prigma.net"
 
 export const metadata: Metadata = {
-  title: "Proyectos y Portafolio | PRIGMA — Desarrollo de Software",
+  title: "Proyectos y Portafolio",
   description: "Conocé los proyectos que desarrollamos en PRIGMA. BarberPro: sistema de gestión para barberías. ShopFlow: plataforma de ventas online para pequeñas empresas.",
   keywords: ["portafolio PRIGMA", "proyectos desarrollo software", "casos de éxito software Colombia", "BarberPro", "ShopFlow"],
   openGraph: {
-    title: "Proyectos y Portafolio | PRIGMA",
+    title: "Proyectos y Portafolio",
     description: "Conocé los proyectos que desarrollamos. Soluciones reales para negocios reales.",
     url: `${SITE_URL}/proyectos`,
     type: "website",
