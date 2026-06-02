@@ -13,7 +13,7 @@ export default function SchemaMarkup() {
     },
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+57-322-483-9040",
+      "telephone": "+57-311-207-8781",
       "contactType": "customer service",
       "availableLanguage": "Spanish"
     },
@@ -49,7 +49,7 @@ export default function SchemaMarkup() {
     "name": "PRIGMA",
     "image": "https://prigma.net/images/prigma_logo_sin_fondo.png",
     "url": "https://prigma.net",
-    "telephone": "+57-322-483-9040",
+    "telephone": "+57-311-207-8781",
     "email": "contacto@prigma.net",
     "address": {
       "@type": "PostalAddress",
@@ -94,7 +94,7 @@ export default function SchemaMarkup() {
       "name": "PRIGMA",
       "url": "https://prigma.net",
       "logo": "https://prigma.net/images/prigma_logo_sin_fondo.png",
-      "telephone": "+57-322-483-9040",
+      "telephone": "+57-311-207-8781",
       "email": "contacto@prigma.net",
       "address": {
         "@type": "PostalAddress",

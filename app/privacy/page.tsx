@@ -28,7 +28,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="text-2xl font-semibold mb-3 text-white">5. Contacto</h2>
-            <p>Para cualquier consulta sobre privacidad, escribinos a <a href="mailto:contacto@prigma.net" className="text-purple-400 hover:underline">contacto@prigma.net</a> o llamá al +57 (322) 483-9040.</p>
+            <p>Para cualquier consulta sobre privacidad, escribinos a <a href="mailto:contacto@prigma.net" className="text-purple-400 hover:underline">contacto@prigma.net</a> o llamá al +57 (311) 207-8781.</p>
           </section>
         </div>
       </div>
