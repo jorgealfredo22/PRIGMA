@@ -82,7 +82,7 @@ export default function ContactPage() {
       (formData.phone ? `📱 Teléfono: ${formData.phone}%0A` : "") +
       `%0A💬 *Consulta:*%0A${formData.message}`
 
-    const whatsappUrl = `https://wa.me/573224839040?text=${whatsappMessage}`
+    const whatsappUrl = `https://wa.me/573112078781?text=${whatsappMessage}`
 
     setTimeout(() => {
       window.open(whatsappUrl, "_blank")
@@ -302,9 +302,9 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h4 className="font-semibold">Teléfono</h4>
-                        <a href="tel:+573224839040">
+                        <a href="tel:+573112078781">
                           <p className="text-center text-purple-400 hover:underline cursor-pointer">
-                            +57 (322) 483-9040
+                            +57 (311) 207-8781
                           </p>
                         </a>
 
@@ -345,7 +345,9 @@ export default function ContactPage() {
                     <h4 className="font-semibold mb-4">Síguenos</h4>
                     <div className="flex space-x-4">
                       <a
-                        href="#"
+                        href="https://www.facebook.com/share/1BDLVLqKVb/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-purple-600/20 hover:text-purple-400 transition-all duration-300"
                       >
                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -357,14 +359,24 @@ export default function ContactPage() {
                         </svg>
                       </a>
                       <a
+                        href="https://www.instagram.com/prigma_oficial/?hl=es"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-purple-600/20 hover:text-purple-400 transition-all duration-300"
+                      >
+                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"></path>
+                        </svg>
+                      </a>
+                      {/* <a
                         href="#"
                         className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-purple-600/20 hover:text-purple-400 transition-all duration-300"
                       >
                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                           <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
                         </svg>
-                      </a>
-                      <a
+                      </a> */}
+                      {/* <a
                         href="#"
                         className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-purple-600/20 hover:text-purple-400 transition-all duration-300"
                       >
@@ -375,19 +387,7 @@ export default function ContactPage() {
                             clipRule="evenodd"
                           ></path>
                         </svg>
-                      </a>
-                      <a
-                        href="#"
-                        className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-purple-600/20 hover:text-purple-400 transition-all duration-300"
-                      >
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                          <path
-                            fillRule="evenodd"
-                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.832-5.63.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.47.977zm4.452-1.090a39.357 39.357 0 00-1.702-6.245c2.807-.316 5.288.209 5.59.262a8.488 8.488 0 01-3.888 5.982z"
-                            clipRule="evenodd"
-                          ></path>
-                        </svg>
-                      </a>
+                      </a> */}
                     </div>
                   </div>
                 </div>
