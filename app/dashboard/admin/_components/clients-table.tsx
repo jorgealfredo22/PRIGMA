@@ -12,8 +12,13 @@ interface ClientRow {
   contact_name: string | null
   contact_email: string | null
   contact_phone: string | null
+  extra_info: string | null
   created_at: string
+  metadata?: any
 }
+
+import { ClientDetailsDialog } from "./client-details-dialog"
+import { ClientEditDialog } from "./client-edit-dialog"
 
 const columns: ColumnDef<ClientRow>[] = [
   {
@@ -51,6 +56,18 @@ const columns: ColumnDef<ClientRow>[] = [
         <span className="text-muted-foreground text-xs">
           {date ? new Date(date).toLocaleDateString("es-CO") : "—"}
         </span>
+      )
+    },
+  },
+  {
+    id: "actions",
+    header: "Acciones",
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center gap-2">
+          <ClientDetailsDialog metadata={row.original.metadata} />
+          <ClientEditDialog client={row.original} />
+        </div>
       )
     },
   },

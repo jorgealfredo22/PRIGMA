@@ -1,6 +1,6 @@
 "use client"
 
-import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts"
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 interface MonthlyRevenue {
@@ -36,21 +36,23 @@ export function RevenueChart({ data }: RevenueChartProps) {
       <CardHeader>
         <CardTitle>Ingresos Mensuales</CardTitle>
       </CardHeader>
-      <CardContent className="h-[300px] w-full">
-        <BarChart width={500} height={300} data={chartData}>
-          <XAxis
+      <CardContent className="h-[300px] w-full pb-4">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+            <XAxis
             dataKey="month"
             tickLine={false}
             tickMargin={10}
             axisLine={false}
             tickFormatter={(value) => value.slice(0, 3)}
           />
-          <YAxis
-            tickLine={false}
-            tickMargin={10}
-            axisLine={false}
-            tickFormatter={(value) => `${value}M`}
-          />
+            <YAxis
+              width={65}
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+              tickFormatter={(value) => `${value}M`}
+            />
           <Tooltip
             formatter={(value) => [`$${value}M COP`, "Ingresos"]}
             contentStyle={{
@@ -63,8 +65,9 @@ export function RevenueChart({ data }: RevenueChartProps) {
             }}
             itemStyle={{ color: "#e2e8f0" }}
           />
-          <Bar dataKey="revenue" fill="#8b5cf6" radius={4} />
-        </BarChart>
+            <Bar dataKey="revenue" fill="#8b5cf6" radius={4} />
+          </BarChart>
+        </ResponsiveContainer>
       </CardContent>
     </Card>
   )

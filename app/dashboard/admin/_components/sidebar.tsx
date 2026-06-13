@@ -42,10 +42,11 @@ export function AdminSidebar({ userEmail }: AdminSidebarProps) {
   const pathname = usePathname()
 
   return (
-    <Sidebar collapsible="offcanvas" className="border-r">
+    <Sidebar collapsible="icon" className="border-r">
       <SidebarHeader>
-        <div className="flex items-center gap-2 px-3 py-2">
-          <span className="text-lg font-semibold">Prigma Admin</span>
+        <div className="flex items-center justify-center gap-2 px-3 py-2 h-10">
+          <span className="text-lg font-semibold group-data-[collapsible=icon]:hidden">Prigma Admin</span>
+          <span className="text-lg font-bold hidden group-data-[collapsible=icon]:block">PA</span>
         </div>
       </SidebarHeader>
 
@@ -84,21 +85,22 @@ export function AdminSidebar({ userEmail }: AdminSidebarProps) {
 
       <SidebarFooter>
         <SidebarSeparator />
-        <div className="px-3 py-2">
+        <div className="p-2">
           {userEmail && (
-            <p className="text-xs text-muted-foreground truncate mb-2">
+            <p className="px-2 text-xs text-muted-foreground truncate mb-2 group-data-[collapsible=icon]:hidden">
               {userEmail}
             </p>
           )}
-          <form action="/api/auth/logout" method="POST">
-            <button
-              type="submit"
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground hover:bg-destructive/10 w-full px-2 py-1.5 rounded-md transition-colors"
-            >
-              <LogOut className="h-4 w-4" />
-              <span>Cerrar Sesión</span>
-            </button>
-          </form>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <form action="/api/auth/logout" method="POST">
+                <SidebarMenuButton type="submit" tooltip="Cerrar Sesión" className="w-full text-muted-foreground hover:bg-destructive/10 hover:text-destructive">
+                  <LogOut className="h-4 w-4" />
+                  <span>Cerrar Sesión</span>
+                </SidebarMenuButton>
+              </form>
+            </SidebarMenuItem>
+          </SidebarMenu>
         </div>
       </SidebarFooter>
     </Sidebar>

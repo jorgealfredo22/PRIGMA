@@ -118,6 +118,16 @@ export async function createClientAction(formData: FormData) {
   const client_name = getString(formData, "client_name")
   if (!client_name) return { error: "client_name es requerido" }
 
+  const metadataRaw = getOptionalString(formData, "metadata")
+  let metadata = {}
+  if (metadataRaw) {
+    try {
+      metadata = JSON.parse(metadataRaw)
+    } catch (e) {
+      throw new Error("El campo metadata debe ser un JSON válido")
+    }
+  }
+
   const supabase = createAdminSupabaseClient()
   const res = await supabase.from("clients").insert({
     client_name,
@@ -126,10 +136,45 @@ export async function createClientAction(formData: FormData) {
     contact_email: getOptionalString(formData, "contact_email"),
     contact_phone: getOptionalString(formData, "contact_phone"),
     extra_info: getOptionalString(formData, "extra_info"),
+    metadata,
   })
 
   if (res.error) throw new Error(res.error.message)
   revalidatePath("/dashboard/admin")
+  revalidatePath("/dashboard/admin/clients")
+}
+
+export async function updateClientAction(formData: FormData) {
+  const id = getString(formData, "id")
+  if (!id) throw new Error("El ID del cliente es requerido")
+
+  const client_name = getString(formData, "client_name")
+  if (!client_name) throw new Error("El nombre del cliente es requerido")
+
+  const metadataRaw = getOptionalString(formData, "metadata")
+  let metadata = {}
+  if (metadataRaw) {
+    try {
+      metadata = JSON.parse(metadataRaw)
+    } catch (e) {
+      throw new Error("El campo metadata debe ser un JSON válido")
+    }
+  }
+
+  const supabase = createAdminSupabaseClient()
+  const res = await supabase.from("clients").update({
+    client_name,
+    company_name: getOptionalString(formData, "company_name"),
+    contact_name: getOptionalString(formData, "contact_name"),
+    contact_email: getOptionalString(formData, "contact_email"),
+    contact_phone: getOptionalString(formData, "contact_phone"),
+    extra_info: getOptionalString(formData, "extra_info"),
+    metadata,
+  }).eq("id", id)
+
+  if (res.error) throw new Error(res.error.message)
+  revalidatePath("/dashboard/admin")
+  revalidatePath("/dashboard/admin/clients")
 }
 
 export async function createLicenseAction(formData: FormData) {

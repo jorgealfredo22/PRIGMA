@@ -1,6 +1,6 @@
 "use client"
 
-import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts"
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 interface StatusData {
@@ -31,10 +31,11 @@ export function StatusChart({ data }: StatusChartProps) {
       <CardHeader>
         <CardTitle>Estado de Licencias</CardTitle>
       </CardHeader>
-      <CardContent className="h-[300px] w-full">
-        <BarChart width={500} height={300} data={data}>
-          <XAxis dataKey="status" tickLine={false} tickMargin={10} axisLine={false} />
-          <YAxis tickLine={false} tickMargin={10} axisLine={false} allowDecimals={false} />
+      <CardContent className="h-[300px] w-full pb-4">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+            <XAxis dataKey="status" tickLine={false} tickMargin={10} axisLine={false} />
+            <YAxis width={40} tickLine={false} tickMargin={10} axisLine={false} allowDecimals={false} />
           <Tooltip
             contentStyle={{
               backgroundColor: "#0f172a",
@@ -46,8 +47,9 @@ export function StatusChart({ data }: StatusChartProps) {
             }}
             itemStyle={{ color: "#e2e8f0" }}
           />
-          <Bar dataKey="count" fill="#8b5cf6" radius={4} />
-        </BarChart>
+            <Bar dataKey="count" fill="#8b5cf6" radius={4} />
+          </BarChart>
+        </ResponsiveContainer>
       </CardContent>
     </Card>
   )

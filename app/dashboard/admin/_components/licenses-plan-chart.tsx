@@ -1,6 +1,6 @@
 "use client"
 
-import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts"
+import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 interface PlanBreakdown {
@@ -49,8 +49,9 @@ export function LicensesPlanChart({ data }: LicensesPlanChartProps) {
       <CardHeader>
         <CardTitle>Licencias por Plan</CardTitle>
       </CardHeader>
-      <CardContent className="h-[300px] w-full">
-        <PieChart width={500} height={300}>
+      <CardContent className="h-[300px] w-full pb-4">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
           <Pie
             data={chartData}
             cx="50%"
@@ -75,8 +76,9 @@ export function LicensesPlanChart({ data }: LicensesPlanChartProps) {
             }}
             itemStyle={{ color: "#e2e8f0" }}
           />
-          <Legend />
-        </PieChart>
+            <Legend />
+          </PieChart>
+        </ResponsiveContainer>
       </CardContent>
     </Card>
   )
