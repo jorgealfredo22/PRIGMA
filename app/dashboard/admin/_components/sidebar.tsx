@@ -49,16 +49,16 @@ export function AdminSidebar({ userEmail }: AdminSidebarProps) {
           <Image
             src="/images/prigma_logo_sin_fondo.png"
             alt="Prigma Logo"
-            width={120}
-            height={40}
+            width={70}
+            height={10}
             className="object-contain group-data-[collapsible=icon]:hidden"
             priority
           />
           <Image
             src="/images/prigma_logo_sin_fondo.png"
             alt="Prigma Logo Corto"
-            width={32}
-            height={32}
+            width={128}
+            height={128}
             className="object-contain hidden group-data-[collapsible=icon]:block"
             priority
           />
