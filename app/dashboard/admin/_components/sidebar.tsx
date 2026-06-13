@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
@@ -44,9 +45,23 @@ export function AdminSidebar({ userEmail }: AdminSidebarProps) {
   return (
     <Sidebar collapsible="icon" className="border-r">
       <SidebarHeader>
-        <div className="flex items-center justify-center gap-2 px-3 py-2 h-10">
-          <span className="text-lg font-semibold group-data-[collapsible=icon]:hidden">Prigma Admin</span>
-          <span className="text-lg font-bold hidden group-data-[collapsible=icon]:block">PA</span>
+        <div className="flex items-center justify-center h-16 w-full px-2">
+          <Image
+            src="/images/prigma_logo_sin_fondo.png"
+            alt="Prigma Logo"
+            width={120}
+            height={40}
+            className="object-contain group-data-[collapsible=icon]:hidden"
+            priority
+          />
+          <Image
+            src="/images/prigma_logo_sin_fondo.png"
+            alt="Prigma Logo Corto"
+            width={32}
+            height={32}
+            className="object-contain hidden group-data-[collapsible=icon]:block"
+            priority
+          />
         </div>
       </SidebarHeader>
 
