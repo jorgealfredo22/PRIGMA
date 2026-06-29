@@ -2,7 +2,9 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import Image from "next/image"
 import { projects } from "@/lib/data/projects"
-import { ProjectCard } from "@/components/ui/ProjectCard"const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://prigma.net"
+import { ProjectCard } from "@/components/ui/ProjectCard"
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://prigma.net"
 
 export const metadata: Metadata = {
   title: "Proyectos y Portafolio",
