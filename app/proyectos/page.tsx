@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import Image from "next/image"
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://prigma.net"
+import { projects } from "@/lib/data/projects"
+import { ProjectCard } from "@/components/ui/ProjectCard"const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://prigma.net"
 
 export const metadata: Metadata = {
   title: "Proyectos y Portafolio",
@@ -64,77 +64,9 @@ export default function ProyectosPage() {
       <section className="relative z-10 py-12">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {/* BarberPro */}
-            <div className="group bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl overflow-hidden hover:border-purple-500/30 transition-all duration-500 hover:shadow-xl hover:shadow-purple-500/10">
-              <div className="h-56 relative overflow-hidden">
-                <Image
-                  src="/uploads/mockup-all-framed.png"
-                  alt="BarberPro - Sistema de gestión de citas para barberías"
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-500"></div>
-              </div>
-              <div className="p-6">
-                <h2 className="text-xl font-bold mb-3 group-hover:text-purple-400 transition-colors">
-                  BarberPro
-                </h2>
-                <p className="text-gray-300 mb-4 text-sm">
-                  Sistema de gestión de citas para barberías modernas. Permite administrar turnos, clientes y servicios de forma eficiente.
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">EJS</span>
-                  <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">JavaScript</span>
-                </div>
-                <a
-                  href="https://barberia-elite-838bf.web.app/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors text-sm"
-                >
-                  <span>Ver producto</span>
-                  <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                  </svg>
-                </a>
-              </div>
-            </div>
-
-            {/* ShopFlow */}
-            <div className="group bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl overflow-hidden hover:border-purple-500/30 transition-all duration-500 hover:shadow-xl hover:shadow-purple-500/10">
-              <div className="h-56 relative overflow-hidden">
-                <Image
-                  src="/uploads/mockup-all-framed(1).png"
-                  alt="ShopFlow - Plataforma de ventas online para pequeñas empresas"
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-500"></div>
-              </div>
-              <div className="p-6">
-                <h2 className="text-xl font-bold mb-3 group-hover:text-purple-400 transition-colors">
-                  ShopFlow
-                </h2>
-                <p className="text-gray-300 mb-4 text-sm">
-                  Plataforma de ventas online optimizada para pequeñas empresas. Gestión de productos, pedidos y pagos en un solo lugar.
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">EJS</span>
-                  <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">JavaScript</span>
-                </div>
-                <a
-                  href="https://ramautolux-tienda.onrender.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors text-sm"
-                >
-                  <span>Ver producto</span>
-                  <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                  </svg>
-                </a>
-              </div>
-            </div>
+            {projects.map(project => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
           </div>
         </div>
       </section>
