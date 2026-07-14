@@ -2,6 +2,7 @@ import type React from "react"
 import "./globals.css"
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
+import { TooltipProvider } from "@/components/ui/tooltip"
 import SchemaMarkup from "@/components/schema-markup"
 import { Toaster } from "@/components/ui/sonner"
 import type { Metadata } from "next"
@@ -87,7 +88,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <SchemaMarkup />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
-          {children}
+          <TooltipProvider>
+            {children}
+          </TooltipProvider>
         </ThemeProvider>
         <Toaster />
       </body>

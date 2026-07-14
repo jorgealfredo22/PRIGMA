@@ -10,6 +10,7 @@ import {
   Key,
   Users,
   CreditCard,
+  Mail,
   LogOut,
 } from "lucide-react"
 
@@ -32,6 +33,7 @@ const nav_items = [
   { href: "/dashboard/admin/licenses", label: "Licencias", icon: Key },
   { href: "/dashboard/admin/clients", label: "Clientes", icon: Users },
   { href: "/dashboard/admin/payments", label: "Pagos", icon: CreditCard },
+  { href: "/dashboard/admin/email", label: "Correo", icon: Mail },
   { href: "/dashboard/admin/docs", label: "Docs API", icon: BookOpen },
 ]
 
