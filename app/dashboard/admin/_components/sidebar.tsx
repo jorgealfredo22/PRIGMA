@@ -13,6 +13,7 @@ import {
   CreditCard,
   Mail,
   LogOut,
+  ShieldCheck,
 } from "lucide-react"
 
 import {
@@ -37,6 +38,7 @@ const nav_items = [
   { href: "/dashboard/admin/payments", label: "Pagos", icon: CreditCard },
   { href: "/dashboard/admin/email", label: "Correo", icon: Mail },
   { href: "/dashboard/admin/docs", label: "Docs API", icon: BookOpen },
+  { href: "/dashboard/admin/perfil", label: "Seguridad", icon: ShieldCheck },
 ]
 
 interface AdminSidebarProps {
@@ -106,9 +108,13 @@ export function AdminSidebar({ userEmail }: AdminSidebarProps) {
         <SidebarSeparator />
         <div className="p-2">
           {userEmail && (
-            <p className="px-2 text-xs text-muted-foreground truncate mb-2 group-data-[collapsible=icon]:hidden">
-              {userEmail}
-            </p>
+            <Link
+              href="/dashboard/admin/perfil"
+              className="flex items-center gap-1.5 px-2 py-1 text-xs text-muted-foreground hover:text-foreground hover:bg-muted/70 rounded transition-colors truncate mb-1 group-data-[collapsible=icon]:hidden"
+              title="Ver perfil y cambiar contraseña"
+            >
+              <span className="truncate font-medium">{userEmail}</span>
+            </Link>
           )}
           <SidebarMenu>
             <SidebarMenuItem>
