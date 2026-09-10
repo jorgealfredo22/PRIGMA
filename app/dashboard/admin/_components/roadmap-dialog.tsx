@@ -30,7 +30,6 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {
-  seedPrigmateTasksAction,
   importCustomRoadmapAction,
 } from "../tasks/actions"
 
@@ -65,24 +64,6 @@ export function RoadmapDialog({ trigger }: RoadmapDialogProps = {}) {
   const [formatType, setFormatType] = useState<"text" | "json">("text")
   const [content, setContent] = useState("")
   const [projectName, setProjectName] = useState("Prigmate")
-
-  function handleLoadPrigmateTemplate() {
-    startTransition(async () => {
-      const toastId = toast.loading("Cargando las 14 tareas oficiales de Prigmate...")
-      try {
-        const res = await seedPrigmateTasksAction()
-        if (res.success) {
-          toast.success("Roadmap de Prigmate cargado exitosamente", { id: toastId })
-          setOpen(false)
-          router.refresh()
-        } else {
-          toast.error(res.error || "Error al cargar roadmap", { id: toastId })
-        }
-      } catch (err) {
-        toast.error(err instanceof Error ? err.message : "Error inesperado", { id: toastId })
-      }
-    })
-  }
 
   function parseTextLines(text: string) {
     const lines = text.split("\n").map((l) => l.trim()).filter(Boolean)
@@ -188,42 +169,17 @@ export function RoadmapDialog({ trigger }: RoadmapDialogProps = {}) {
             Gestión y Carga de Roadmap
           </DialogTitle>
           <DialogDescription>
-            Aquí puedes precargar el roadmap oficial de Prigmate o pegar tu propia lista de tareas personalizada.
+            Carga o sincroniza las tareas de tu proyecto pegando una lista en formato texto o JSON estructurado.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6 pt-2">
-          {/* Option 1: Official Prigmate Template */}
-          <div className="p-4 rounded-lg border bg-muted/40 space-y-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <h4 className="font-semibold text-sm flex items-center gap-1.5">
-                  <Sparkles className="h-4 w-4 text-amber-500" />
-                  Roadmap Oficial de Prigmate (14 Tareas)
-                </h4>
-                <p className="text-xs text-muted-foreground mt-0.5">
-                  Carga las 14 tareas prioritarias de Backend, Frontend, IA y QA del documento técnico.
-                </p>
-              </div>
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={handleLoadPrigmateTemplate}
-                disabled={isPending}
-                className="shrink-0 text-xs"
-              >
-                {isPending ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : null}
-                Cargar Prigmate (14 Tareas)
-              </Button>
-            </div>
-          </div>
-
-          {/* Option 2: Custom Roadmap Input */}
-          <div className="space-y-4 border-t pt-4">
+        <div className="space-y-4 pt-2">
+          {/* Custom Roadmap Input */}
+          <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h4 className="font-semibold text-sm flex items-center gap-1.5">
                 <UploadCloud className="h-4 w-4 text-blue-500" />
-                Cargar o Importar Nuevo Roadmap Personalizado
+                Cargar o Importar Nuevo Roadmap
               </h4>
 
               {/* Format selector buttons */}

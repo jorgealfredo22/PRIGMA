@@ -226,45 +226,7 @@ export async function deleteTaskAction(id: string): Promise<ActionResponse> {
   }
 }
 
-// 6. Semilla Idempotente del Roadmap de Prigmate
-export async function seedPrigmateTasksAction(): Promise<ActionResponse> {
-  try {
-    const user = await getCurrentUser()
-    if (!user) return { success: false, error: "No autorizado" }
 
-    const initialTasks = [
-      { task_code: "BE-01", title: "Controlador y Servicio de SLA en Rails", description: "Reincorporar sla_policies_controller.rb y conectar listeners de cálculo de tiempos.", project: "Prigmate", assignee_name: "Backend Developer", status: "pending", priority: "high", estimated_days: 2.0 },
-      { task_code: "BE-02", title: "Motor de Roles Personalizados", description: "Crear modelo CustomRole, migración de permisos y políticas Pundit.", project: "Prigmate", assignee_name: "Backend Developer", status: "pending", priority: "high", estimated_days: 3.0 },
-      { task_code: "BE-03", title: "Servicio de Triage IA (Ai::TriageService)", description: "Servicio con LLM y JSON estructurado para clasificación y handoff a humanos.", project: "Prigmate", assignee_name: "Backend Developer", status: "pending", priority: "urgent", estimated_days: 3.0 },
-      { task_code: "BE-04", title: "Feature Flags en SuperAdmin", description: "Toggles en base de datos para encender/apagar módulos por cuenta.", project: "Prigmate", assignee_name: "Backend Developer", status: "pending", priority: "medium", estimated_days: 1.0 },
-      { task_code: "FE-01", title: "Vista de Configuración de Triage IA", description: "Pantalla en Ajustes -> Agente IA para configurar intenciones y reglas de asignación.", project: "Prigmate", assignee_name: "Frontend Developer", status: "pending", priority: "urgent", estimated_days: 3.0 },
-      { task_code: "FE-02", title: "Pantalla de Roles y Permisos", description: "Interfaz en Ajustes -> Roles con tabla de permisos por rol.", project: "Prigmate", assignee_name: "Frontend Developer", status: "pending", priority: "high", estimated_days: 2.0 },
-      { task_code: "FE-03", title: "Habilitación de Vistas de SLA", description: "Conectar componentes existentes en barra lateral y panel de Informes.", project: "Prigmate", assignee_name: "Frontend Developer", status: "pending", priority: "medium", estimated_days: 1.0 },
-      { task_code: "FE-04", title: "Selector Visual de Plantillas WhatsApp", description: "Modal interactivo en caja de chat para previsualizar plantillas aprobadas.", project: "Prigmate", assignee_name: "Frontend Developer", status: "pending", priority: "medium", estimated_days: 2.0 },
-      { task_code: "AI-01", title: "Diseño de Metaprompt de Clasificación", description: "Prompt de sistema con Few-Shot y salida estricta en JSON Schema.", project: "Prigmate", assignee_name: "AI Engineer", status: "pending", priority: "urgent", estimated_days: 1.0 },
-      { task_code: "AI-02", title: "Detección de Frustración y Handoff", description: "Reglas semánticas para transferir inmediatamente ante quejas.", project: "Prigmate", assignee_name: "AI Engineer", status: "pending", priority: "high", estimated_days: 1.0 },
-      { task_code: "AI-03", title: "Plantilla de Resumen para Agentes", description: "Formato conciso de nota interna (3 líneas) al momento del handoff.", project: "Prigmate", assignee_name: "AI Engineer", status: "pending", priority: "medium", estimated_days: 1.0 },
-      { task_code: "QA-01", title: "Pruebas de Flujo Completo de Triage", description: "Simular conversaciones en WhatsApp y Webchat verificando asignaciones y notas.", project: "Prigmate", assignee_name: "QA Tester", status: "pending", priority: "high", estimated_days: 2.0 },
-      { task_code: "QA-02", title: "Pruebas de Permisos de Roles", description: "Validar que agentes restringidos no puedan exportar contactos.", project: "Prigmate", assignee_name: "QA Tester", status: "pending", priority: "high", estimated_days: 1.0 },
-      { task_code: "QA-03", title: "Configuración de Variables en Docker", description: "Variables de entorno de OpenAI/Gemini y Feature Flags en producción.", project: "Prigmate", assignee_name: "DevOps / Christian", status: "pending", priority: "medium", estimated_days: 1.0 }
-    ]
-
-    const supabase = createAdminSupabaseClient()
-    const { error } = await supabase
-      .from("admin_tasks")
-      .upsert(initialTasks, { onConflict: "task_code", ignoreDuplicates: true })
-
-    if (error) throw new Error(error.message)
-
-    revalidatePath("/dashboard/admin/tasks")
-    return { success: true, count: initialTasks.length }
-  } catch (err) {
-    return {
-      success: false,
-      error: err instanceof Error ? err.message : "Error al precargar el roadmap",
-    }
-  }
-}
 
 // 7. Obtener correos de los usuarios registrados en Supabase Auth
 export async function getTeamUsersAction(): Promise<string[]> {

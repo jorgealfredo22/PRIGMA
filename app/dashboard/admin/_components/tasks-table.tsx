@@ -14,7 +14,6 @@ import {
   RefreshCw,
   AlertCircle,
   FolderKanban,
-  Sparkles,
 } from "lucide-react"
 
 import {
@@ -48,12 +47,12 @@ import {
 } from "@/components/ui/alert-dialog"
 
 import { TaskDialog } from "./task-dialog"
+import { RoadmapDialog } from "./roadmap-dialog"
 import { TaskStatusBadge, TaskPriorityBadge } from "./task-status-badge"
 import {
   updateTaskStatusAction,
   updateTaskAssigneeAction,
   deleteTaskAction,
-  seedPrigmateTasksAction,
 } from "../tasks/actions"
 import type { AdminTask, TaskStatus } from "../tasks/types"
 import { TASK_STATUS_CONFIG } from "../tasks/types"
@@ -153,26 +152,6 @@ export function TasksTable({ tasks, teamUsers = [] }: TasksTableProps) {
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Error al eliminar tarea", { id: toastId })
     }
-  }
-
-  // Seed tasks handler
-  async function handleSeedTasks() {
-    startTransition(async () => {
-      const toastId = toast.loading("Precargando las 14 tareas de Prigmate...")
-      try {
-        const res = await seedPrigmateTasksAction()
-        if (res.success) {
-          toast.success("¡Tareas de Prigmate precargadas con éxito!", { id: toastId })
-          router.refresh()
-        } else {
-          toast.error(res.error || "Error al precargar tareas", { id: toastId })
-        }
-      } catch (err) {
-        toast.error(err instanceof Error ? err.message : "Error inesperado al precargar", {
-          id: toastId,
-        })
-      }
-    })
   }
 
   function getCodeBadgeStyle(code: string) {
@@ -291,16 +270,10 @@ export function TasksTable({ tasks, teamUsers = [] }: TasksTableProps) {
                       </p>
                     </div>
                     {tasks.length === 0 && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handleSeedTasks}
-                        disabled={isPending}
-                        className="gap-1.5 text-xs mt-2"
-                      >
-                        <Sparkles className="h-3.5 w-3.5 text-amber-500" />
-                        Precargar Tareas de Prigmate
-                      </Button>
+                      <div className="flex flex-wrap items-center justify-center gap-2 mt-2">
+                        <RoadmapDialog />
+                        <TaskDialog teamUsers={teamUsers} />
+                      </div>
                     )}
                   </div>
                 </TableCell>
@@ -505,18 +478,6 @@ export function TasksTable({ tasks, teamUsers = [] }: TasksTableProps) {
         <span>
           Mostrando {filteredTasks.length} de {tasks.length} tareas
         </span>
-        {tasks.length > 0 && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleSeedTasks}
-            disabled={isPending}
-            className="text-xs h-7 text-muted-foreground hover:text-foreground"
-          >
-            <Sparkles className="h-3 w-3 mr-1 text-amber-500" />
-            Sincronizar Roadmap
-          </Button>
-        )}
       </div>
     </div>
   )
