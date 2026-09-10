@@ -35,6 +35,8 @@ interface TaskDialogProps {
   trigger?: React.ReactNode
   onSuccess?: () => void
   teamUsers?: string[]
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }
 
 const COMMON_ASSIGNEES = [
@@ -46,8 +48,19 @@ const COMMON_ASSIGNEES = [
   "DevOps / Christian",
 ]
 
-export function TaskDialog({ task, trigger, onSuccess, teamUsers = [] }: TaskDialogProps) {
-  const [open, setOpen] = useState(false)
+export function TaskDialog({
+  task,
+  trigger,
+  onSuccess,
+  teamUsers = [],
+  open: controlledOpen,
+  onOpenChange: controlledOnOpenChange,
+}: TaskDialogProps) {
+  const [internalOpen, setInternalOpen] = useState(false)
+  const isControlled = typeof controlledOpen !== "undefined"
+  const open = isControlled ? controlledOpen : internalOpen
+  const setOpen = isControlled ? (controlledOnOpenChange ?? (() => {})) : setInternalOpen
+
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
 

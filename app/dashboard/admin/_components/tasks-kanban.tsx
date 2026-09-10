@@ -47,6 +47,7 @@ import {
 } from "@/components/ui/alert-dialog"
 
 import { TaskDialog } from "./task-dialog"
+import { TaskPreviewDialog } from "./task-preview-dialog"
 import { TaskPriorityBadge } from "./task-status-badge"
 import {
   updateTaskStatusAction,
@@ -54,7 +55,7 @@ import {
   deleteTaskAction,
 } from "../tasks/actions"
 import type { AdminTask, TaskStatus } from "../tasks/types"
-import { TASK_STATUS_CONFIG } from "../tasks/types"
+import { TASK_STATUS_CONFIG, matchAssignee } from "../tasks/types"
 
 interface TasksKanbanProps {
   tasks: AdminTask[]
@@ -116,6 +117,7 @@ export function TasksKanban({
   const router = useRouter()
   const [taskToDelete, setTaskToDelete] = useState<AdminTask | null>(null)
   const [editingTask, setEditingTask] = useState<AdminTask | null>(null)
+  const [previewTask, setPreviewTask] = useState<AdminTask | null>(null)
 
   // Filter tasks based on search & assignee
   const filteredTasks = useMemo(() => {
@@ -129,7 +131,7 @@ export function TasksKanban({
         if (!match) return false
       }
 
-      if (filterAssignee !== "all" && t.assignee_name !== filterAssignee) {
+      if (filterAssignee !== "all" && !matchAssignee(t.assignee_name, filterAssignee)) {
         return false
       }
 
@@ -246,7 +248,8 @@ export function TasksKanban({
                     return (
                       <Card
                         key={task.id}
-                        className="shadow-xs hover:shadow-md transition-all border bg-card/95 hover:border-primary/40 group"
+                        onClick={() => setPreviewTask(task)}
+                        className="shadow-xs hover:shadow-md transition-all border bg-card/95 hover:border-primary/50 group cursor-pointer hover:ring-1 hover:ring-primary/20"
                       >
                         <CardContent className="p-3 space-y-2">
                           {/* Card Header: Code & Actions Menu */}
@@ -264,17 +267,18 @@ export function TasksKanban({
                             </div>
 
                             {/* Dropdown Menu de Acciones */}
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-6 w-6 text-muted-foreground hover:text-foreground"
-                                >
-                                  <MoreVertical className="h-3.5 w-3.5" />
-                                  <span className="sr-only">Acciones</span>
-                                </Button>
-                              </DropdownMenuTrigger>
+                            <div onClick={(e) => e.stopPropagation()}>
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-6 w-6 text-muted-foreground hover:text-foreground"
+                                  >
+                                    <MoreVertical className="h-3.5 w-3.5" />
+                                    <span className="sr-only">Acciones</span>
+                                  </Button>
+                                </DropdownMenuTrigger>
                               <DropdownMenuContent align="end" className="w-48 text-xs">
                                 <DropdownMenuLabel>Acciones de Tarea</DropdownMenuLabel>
                                 <DropdownMenuItem onClick={() => setEditingTask(task)}>
@@ -344,6 +348,7 @@ export function TasksKanban({
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </div>
+                        </div>
 
                           {/* Card Title & Desc */}
                           <div>
@@ -360,53 +365,59 @@ export function TasksKanban({
                           {/* Card Footer: Assignee & Estimation */}
                           <div className="pt-2 border-t flex items-center justify-between text-[11px]">
                             {/* Assignee pill with quick change dropdown */}
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <button
-                                  type="button"
-                                  className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground bg-muted/50 hover:bg-muted px-1.5 py-0.5 rounded transition-colors max-w-[130px]"
-                                  title="Clic para reasignar"
-                                >
-                                  <div className="h-4 w-4 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-[9px] shrink-0">
-                                    {task.assignee_name ? task.assignee_name.slice(0, 1).toUpperCase() : "?"}
-                                  </div>
-                                  <span className="truncate text-[10px]">
-                                    {task.assignee_name.split("@")[0]}
-                                  </span>
-                                </button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="start" className="w-56 text-xs">
-                                <DropdownMenuLabel>Reasignar Tarea</DropdownMenuLabel>
-                                {teamUsers.map((email) => (
-                                  <DropdownMenuItem
-                                    key={email}
-                                    onClick={() => handleReassign(task.id, email)}
-                                    className={task.assignee_name === email ? "font-bold text-primary" : ""}
+                            <div onClick={(e) => e.stopPropagation()}>
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <button
+                                    type="button"
+                                    className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground bg-muted/50 hover:bg-muted px-1.5 py-0.2 rounded transition-colors max-w-[130px]"
+                                    title="Clic para reasignar"
                                   >
-                                    {email}
-                                  </DropdownMenuItem>
-                                ))}
-                                <DropdownMenuSeparator />
-                                <DropdownMenuLabel>Roles Generales</DropdownMenuLabel>
-                                {["Christian", "Backend Developer", "Frontend Developer", "AI Engineer", "QA Tester"].map(
-                                  (r) => (
+                                    <div className="h-4 w-4 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-[9px] shrink-0">
+                                      {task.assignee_name ? task.assignee_name.slice(0, 1).toUpperCase() : "?"}
+                                    </div>
+                                    <span className="truncate text-[10px]">
+                                      {task.assignee_name.split("@")[0]}
+                                    </span>
+                                  </button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="start" className="w-56 text-xs">
+                                  <DropdownMenuLabel>Reasignar Tarea</DropdownMenuLabel>
+                                  {teamUsers.map((email) => (
                                     <DropdownMenuItem
-                                      key={r}
-                                      onClick={() => handleReassign(task.id, r)}
+                                      key={email}
+                                      onClick={() => handleReassign(task.id, email)}
+                                      className={task.assignee_name === email ? "font-bold text-primary" : ""}
                                     >
-                                      {r}
+                                      {email}
                                     </DropdownMenuItem>
-                                  )
-                                )}
-                              </DropdownMenuContent>
-                            </DropdownMenu>
+                                  ))}
+                                  <DropdownMenuSeparator />
+                                  <DropdownMenuLabel>Roles Generales</DropdownMenuLabel>
+                                  {["Christian", "Backend Developer", "Frontend Developer", "AI Engineer", "QA Tester"].map(
+                                    (r) => (
+                                      <DropdownMenuItem
+                                        key={r}
+                                        onClick={() => handleReassign(task.id, r)}
+                                      >
+                                        {r}
+                                      </DropdownMenuItem>
+                                    )
+                                  )}
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </div>
 
-                            <div className="flex items-center gap-1 text-[11px] text-muted-foreground font-mono">
-                              <span>{task.estimated_days}d</span>
+                            {/* Effort and Due Date */}
+                            <div className="flex items-center gap-2">
+                              <span className="font-mono text-muted-foreground bg-muted px-1.5 py-0.2 rounded text-[10px]">
+                                {task.estimated_days}d
+                              </span>
+
                               {task.due_date && (
                                 <span
-                                  className={`flex items-center gap-0.5 ml-1 ${
-                                    isOverdue ? "text-destructive font-bold" : ""
+                                  className={`flex items-center gap-0.5 ${
+                                    isOverdue ? "text-destructive font-medium" : "text-muted-foreground"
                                   }`}
                                   title={`Fecha límite: ${task.due_date}`}
                                 >
@@ -426,14 +437,26 @@ export function TasksKanban({
         })}
       </div>
 
+      {/* Vista Previa Dialog */}
+      <TaskPreviewDialog
+        task={previewTask}
+        open={Boolean(previewTask)}
+        onOpenChange={(open) => !open && setPreviewTask(null)}
+        teamUsers={teamUsers}
+        onEdit={(t) => {
+          setPreviewTask(null)
+          setEditingTask(t)
+        }}
+      />
+
       {/* Edit Dialog when triggered from card */}
-      {editingTask && (
-        <TaskDialog
-          task={editingTask}
-          trigger={<span className="hidden" />}
-          onSuccess={() => setEditingTask(null)}
-        />
-      )}
+      <TaskDialog
+        task={editingTask ?? undefined}
+        open={Boolean(editingTask)}
+        onOpenChange={(open) => !open && setEditingTask(null)}
+        teamUsers={teamUsers}
+        onSuccess={() => setEditingTask(null)}
+      />
 
       {/* Delete Confirmation Alert */}
       <AlertDialog

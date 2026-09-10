@@ -99,3 +99,35 @@ export const TASK_PRIORITY_CONFIG: Record<
     badgeClass: "bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300 border-red-300 animate-pulse",
   },
 }
+
+export function matchAssignee(taskAssignee?: string | null, filterAssignee?: string): boolean {
+  if (!filterAssignee || filterAssignee === "all") return true
+  if (!taskAssignee) return false
+
+  const taskLower = taskAssignee.trim().toLowerCase()
+  const filterLower = filterAssignee.trim().toLowerCase()
+
+  if (taskLower === filterLower) return true
+
+  const taskUser = taskLower.includes("@") ? taskLower.split("@")[0] : taskLower
+  const filterUser = filterLower.includes("@") ? filterLower.split("@")[0] : filterLower
+
+  if (taskUser === filterUser) return true
+  if (taskUser.includes(filterUser) || filterUser.includes(taskUser)) return true
+
+  const aliasGroups = [
+    ["christian", "christianmartinez", "christianmartinez3h"],
+    ["cristian", "cristiaris", "cristiaris955", "cristian.arismendy"],
+    ["daniel", "daniel.rodriguez", "daniel.rodriguez10"],
+    ["jorge", "jorge_aris", "jorgealfred235"],
+    ["fredy", "fredy.castillo", "fredy.castillo02"],
+  ]
+
+  for (const group of aliasGroups) {
+    const filterInGroup = group.some((alias) => filterUser.includes(alias) || alias.includes(filterUser))
+    const taskInGroup = group.some((alias) => taskUser.includes(alias) || alias.includes(taskUser))
+    if (filterInGroup && taskInGroup) return true
+  }
+
+  return false
+}

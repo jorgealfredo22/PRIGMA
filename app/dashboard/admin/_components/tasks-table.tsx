@@ -48,6 +48,7 @@ import {
 
 import { TaskDialog } from "./task-dialog"
 import { RoadmapDialog } from "./roadmap-dialog"
+import { TaskPreviewDialog } from "./task-preview-dialog"
 import { TaskStatusBadge, TaskPriorityBadge } from "./task-status-badge"
 import {
   updateTaskStatusAction,
@@ -55,7 +56,7 @@ import {
   deleteTaskAction,
 } from "../tasks/actions"
 import type { AdminTask, TaskStatus } from "../tasks/types"
-import { TASK_STATUS_CONFIG } from "../tasks/types"
+import { TASK_STATUS_CONFIG, matchAssignee } from "../tasks/types"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -72,17 +73,32 @@ import { MoreVertical, Edit } from "lucide-react"
 interface TasksTableProps {
   tasks: AdminTask[]
   teamUsers?: string[]
+  searchQuery?: string
+  filterAssignee?: string
+  filterStatus?: string
 }
 
-export function TasksTable({ tasks, teamUsers = [] }: TasksTableProps) {
+export function TasksTable({
+  tasks,
+  teamUsers = [],
+  searchQuery,
+  filterAssignee,
+  filterStatus,
+}: TasksTableProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
+  const [previewTask, setPreviewTask] = useState<AdminTask | null>(null)
+  const [editingTask, setEditingTask] = useState<AdminTask | null>(null)
 
-  // Filter states
+  // Internal filter states (used if not passed from parent)
   const [search, setSearch] = useState("")
   const [selectedStatus, setSelectedStatus] = useState<string>("all")
   const [selectedAssignee, setSelectedAssignee] = useState<string>("all")
   const [updatingTaskId, setUpdatingTaskId] = useState<string | null>(null)
+
+  const effectiveSearch = searchQuery !== undefined ? searchQuery : search
+  const effectiveStatus = filterStatus !== undefined ? filterStatus : selectedStatus
+  const effectiveAssignee = filterAssignee !== undefined ? filterAssignee : selectedAssignee
 
   // Unique assignees extracted from current tasks
   const assignees = useMemo(() => {
@@ -97,28 +113,28 @@ export function TasksTable({ tasks, teamUsers = [] }: TasksTableProps) {
   const filteredTasks = useMemo(() => {
     return tasks.filter((t) => {
       // Search
-      if (search.trim()) {
-        const query = search.toLowerCase()
+      if (effectiveSearch.trim()) {
+        const query = effectiveSearch.toLowerCase()
         const matchTitle = t.title?.toLowerCase().includes(query)
         const matchCode = t.task_code?.toLowerCase().includes(query)
-        const matchAssignee = t.assignee_name?.toLowerCase().includes(query)
+        const matchAssigneeName = t.assignee_name?.toLowerCase().includes(query)
         const matchDesc = t.description?.toLowerCase().includes(query)
-        if (!matchTitle && !matchCode && !matchAssignee && !matchDesc) return false
+        if (!matchTitle && !matchCode && !matchAssigneeName && !matchDesc) return false
       }
 
       // Status
-      if (selectedStatus !== "all" && t.status !== selectedStatus) {
+      if (effectiveStatus !== "all" && t.status !== effectiveStatus) {
         return false
       }
 
-      // Assignee
-      if (selectedAssignee !== "all" && t.assignee_name !== selectedAssignee) {
+      // Assignee (smart matching)
+      if (effectiveAssignee !== "all" && !matchAssignee(t.assignee_name, effectiveAssignee)) {
         return false
       }
 
       return true
     })
-  }, [tasks, search, selectedStatus, selectedAssignee])
+  }, [tasks, effectiveSearch, effectiveStatus, effectiveAssignee])
 
   // Status inline change handler
   async function handleStatusChange(taskId: string, newStatus: TaskStatus) {
@@ -172,71 +188,73 @@ export function TasksTable({ tasks, teamUsers = [] }: TasksTableProps) {
 
   return (
     <div className="space-y-4">
-      {/* Search & Filter Bar */}
-      <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
-        <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Buscar por código, título o asignado..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 h-9"
-          />
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          {/* Status Filter */}
-          <div className="w-[140px]">
-            <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-              <SelectTrigger className="h-9 text-xs">
-                <Filter className="h-3.5 w-3.5 mr-1 text-muted-foreground" />
-                <SelectValue placeholder="Estado" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Todos los estados</SelectItem>
-                {(Object.keys(TASK_STATUS_CONFIG) as TaskStatus[]).map((st) => (
-                  <SelectItem key={st} value={st}>
-                    {TASK_STATUS_CONFIG[st].label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+      {/* Search & Filter Bar (Solo se muestra si no viene controlado desde TasksViewWrapper) */}
+      {searchQuery === undefined && (
+        <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
+          <div className="relative flex-1 max-w-sm">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Buscar por código, título o asignado..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-9 h-9"
+            />
           </div>
 
-          {/* Assignee Filter */}
-          <div className="w-[160px]">
-            <Select value={selectedAssignee} onValueChange={setSelectedAssignee}>
-              <SelectTrigger className="h-9 text-xs">
-                <User className="h-3.5 w-3.5 mr-1 text-muted-foreground" />
-                <SelectValue placeholder="Asignado" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Todos los asignados</SelectItem>
-                {assignees.map((person) => (
-                  <SelectItem key={person} value={person}>
-                    {person}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            {/* Status Filter */}
+            <div className="w-[140px]">
+              <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+                <SelectTrigger className="h-9 text-xs">
+                  <Filter className="h-3.5 w-3.5 mr-1 text-muted-foreground" />
+                  <SelectValue placeholder="Estado" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todos los estados</SelectItem>
+                  {(Object.keys(TASK_STATUS_CONFIG) as TaskStatus[]).map((st) => (
+                    <SelectItem key={st} value={st}>
+                      {TASK_STATUS_CONFIG[st].label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-          {(selectedStatus !== "all" || selectedAssignee !== "all" || search) && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                setSearch("")
-                setSelectedStatus("all")
-                setSelectedAssignee("all")
-              }}
-              className="h-9 px-2 text-xs text-muted-foreground hover:text-foreground"
-            >
-              Limpiar
-            </Button>
-          )}
+            {/* Assignee Filter */}
+            <div className="w-[160px]">
+              <Select value={selectedAssignee} onValueChange={setSelectedAssignee}>
+                <SelectTrigger className="h-9 text-xs">
+                  <User className="h-3.5 w-3.5 mr-1 text-muted-foreground" />
+                  <SelectValue placeholder="Asignado" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todos los asignados</SelectItem>
+                  {assignees.map((person) => (
+                    <SelectItem key={person} value={person}>
+                      {person}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {(selectedStatus !== "all" || selectedAssignee !== "all" || search) && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setSearch("")
+                  setSelectedStatus("all")
+                  setSelectedAssignee("all")
+                }}
+                className="h-9 px-2 text-xs text-muted-foreground hover:text-foreground"
+              >
+                Limpiar
+              </Button>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Table Container */}
       <div className="rounded-md border bg-card shadow-sm overflow-hidden">
@@ -288,19 +306,27 @@ export function TasksTable({ tasks, teamUsers = [] }: TasksTableProps) {
                 return (
                   <TableRow key={task.id} className="hover:bg-muted/30 transition-colors">
                     {/* Task Code */}
-                    <TableCell className="font-mono text-xs font-semibold">
+                    <TableCell
+                      className="font-mono text-xs font-semibold cursor-pointer"
+                      onClick={() => setPreviewTask(task)}
+                    >
                       <Badge
                         variant="outline"
-                        className={`px-2 py-0.5 font-mono ${getCodeBadgeStyle(task.task_code)}`}
+                        className={`px-2 py-0.5 font-mono hover:ring-1 hover:ring-primary/40 transition-all ${getCodeBadgeStyle(
+                          task.task_code
+                        )}`}
                       >
                         {task.task_code}
                       </Badge>
                     </TableCell>
 
                     {/* Title & Description */}
-                    <TableCell>
-                      <div className="space-y-0.5">
-                        <div className="font-medium text-sm text-foreground flex items-center gap-2">
+                    <TableCell
+                      className="cursor-pointer"
+                      onClick={() => setPreviewTask(task)}
+                    >
+                      <div className="space-y-0.5 group">
+                        <div className="font-medium text-sm text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
                           <span>{task.title}</span>
                           {task.project && task.project !== "Prigmate" && (
                             <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4">
@@ -479,6 +505,27 @@ export function TasksTable({ tasks, teamUsers = [] }: TasksTableProps) {
           Mostrando {filteredTasks.length} de {tasks.length} tareas
         </span>
       </div>
+
+      {/* Vista Previa Dialog */}
+      <TaskPreviewDialog
+        task={previewTask}
+        open={Boolean(previewTask)}
+        onOpenChange={(open) => !open && setPreviewTask(null)}
+        teamUsers={teamUsers}
+        onEdit={(t) => {
+          setPreviewTask(null)
+          setEditingTask(t)
+        }}
+      />
+
+      {/* Edit Task Dialog */}
+      <TaskDialog
+        task={editingTask ?? undefined}
+        open={Boolean(editingTask)}
+        onOpenChange={(open) => !open && setEditingTask(null)}
+        teamUsers={teamUsers}
+        onSuccess={() => setEditingTask(null)}
+      />
     </div>
   )
 }

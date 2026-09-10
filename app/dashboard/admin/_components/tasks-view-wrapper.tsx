@@ -100,7 +100,7 @@ export function TasksViewWrapper({
           </div>
 
           {/* Assignee Filter */}
-          <div className="w-44">
+          <div className="w-52">
             <Select value={selectedAssignee} onValueChange={setSelectedAssignee}>
               <SelectTrigger className="h-8 text-xs">
                 <User className="h-3.5 w-3.5 mr-1 text-muted-foreground" />
@@ -108,11 +108,15 @@ export function TasksViewWrapper({
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Todos los asignados</SelectItem>
-                {allAssignees.map((person) => (
-                  <SelectItem key={person} value={person} className="text-xs">
-                    {person}
-                  </SelectItem>
-                ))}
+                {allAssignees.map((person) => {
+                  const isEmail = person.includes("@")
+                  const prefix = isEmail ? person.split("@")[0] : person
+                  return (
+                    <SelectItem key={person} value={person} className="text-xs">
+                      {isEmail ? `${prefix} (${person})` : person}
+                    </SelectItem>
+                  )
+                })}
               </SelectContent>
             </Select>
           </div>
@@ -192,7 +196,13 @@ export function TasksViewWrapper({
           filterAssignee={selectedAssignee}
         />
       ) : (
-        <TasksTable tasks={tasks} teamUsers={teamUsers} />
+        <TasksTable
+          tasks={tasks}
+          teamUsers={teamUsers}
+          searchQuery={search}
+          filterAssignee={selectedAssignee}
+          filterStatus={selectedStatus}
+        />
       )}
     </div>
   )
