@@ -52,7 +52,11 @@ const EXAMPLE_JSON_FORMAT = `[
   }
 ]`
 
-export function RoadmapDialog() {
+interface RoadmapDialogProps {
+  trigger?: React.ReactNode
+}
+
+export function RoadmapDialog({ trigger }: RoadmapDialogProps = {}) {
   const [open, setOpen] = useState(false)
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
@@ -163,10 +167,18 @@ export function RoadmapDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-1.5 text-xs shadow-sm">
-          <Layers className="h-3.5 w-3.5 text-primary" />
-          <span>Cambiar / Cargar Roadmap</span>
-        </Button>
+        {trigger ? (
+          trigger
+        ) : (
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-1.5 text-xs shadow-sm bg-background hover:bg-muted font-medium"
+          >
+            <Layers className="h-4 w-4 text-primary" />
+            <span>Cargar / Cambiar Roadmap</span>
+          </Button>
+        )}
       </DialogTrigger>
 
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">

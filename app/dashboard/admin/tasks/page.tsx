@@ -12,6 +12,8 @@ import { getCurrentUser } from "@/lib/auth"
 import { createAdminSupabaseClient } from "@/lib/supabase/admin"
 import { Card, CardContent } from "@/components/ui/card"
 import { TasksViewWrapper } from "../_components/tasks-view-wrapper"
+import { RoadmapDialog } from "../_components/roadmap-dialog"
+import { TaskDialog } from "../_components/task-dialog"
 import { getTeamUsersAction } from "./actions"
 import type { AdminTask } from "./types"
 
@@ -71,6 +73,12 @@ export default async function AdminTasksPage() {
           <p className="text-sm text-muted-foreground mt-0.5">
             Monitorea, asigna y da seguimiento ágil a las tareas del equipo y roadmap técnico.
           </p>
+        </div>
+
+        {/* Action Buttons in Top Header */}
+        <div className="flex items-center gap-2 shrink-0">
+          <RoadmapDialog />
+          <TaskDialog teamUsers={teamUsers} />
         </div>
       </div>
 
