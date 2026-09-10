@@ -51,17 +51,31 @@ import { TaskDialog } from "./task-dialog"
 import { TaskStatusBadge, TaskPriorityBadge } from "./task-status-badge"
 import {
   updateTaskStatusAction,
+  updateTaskAssigneeAction,
   deleteTaskAction,
   seedPrigmateTasksAction,
 } from "../tasks/actions"
 import type { AdminTask, TaskStatus } from "../tasks/types"
 import { TASK_STATUS_CONFIG } from "../tasks/types"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+} from "@/components/ui/dropdown-menu"
+import { MoreVertical, Edit } from "lucide-react"
 
 interface TasksTableProps {
   tasks: AdminTask[]
+  teamUsers?: string[]
 }
 
-export function TasksTable({ tasks }: TasksTableProps) {
+export function TasksTable({ tasks, teamUsers = [] }: TasksTableProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
 
@@ -329,18 +343,64 @@ export function TasksTable({ tasks }: TasksTableProps) {
                       </div>
                     </TableCell>
 
-                    {/* Assignee */}
+                    {/* Assignee con menú de reasignación rápida */}
                     <TableCell>
-                      <div className="flex items-center gap-1.5 text-xs">
-                        <div className="h-6 w-6 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold text-[10px]">
-                          {task.assignee_name
-                            ? task.assignee_name.slice(0, 2).toUpperCase()
-                            : "?"}
-                        </div>
-                        <span className="font-medium truncate max-w-[110px]" title={task.assignee_name}>
-                          {task.assignee_name}
-                        </span>
-                      </div>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <button
+                            type="button"
+                            className="flex items-center gap-1.5 text-xs text-left hover:bg-muted/70 px-2 py-1 rounded transition-colors group cursor-pointer max-w-[150px]"
+                            title="Clic para reasignar"
+                          >
+                            <div className="h-6 w-6 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold text-[10px] shrink-0">
+                              {task.assignee_name
+                                ? task.assignee_name.slice(0, 2).toUpperCase()
+                                : "?"}
+                            </div>
+                            <span className="font-medium truncate" title={task.assignee_name}>
+                              {task.assignee_name.includes("@")
+                                ? task.assignee_name.split("@")[0]
+                                : task.assignee_name}
+                            </span>
+                          </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="start" className="w-56 text-xs">
+                          <DropdownMenuLabel>Reasignar a Usuario</DropdownMenuLabel>
+                          {teamUsers.map((email) => (
+                            <DropdownMenuItem
+                              key={email}
+                              onClick={async () => {
+                                const res = await updateTaskAssigneeAction(task.id, email)
+                                if (res.success) {
+                                  toast.success(`Asignada a ${email}`)
+                                  router.refresh()
+                                }
+                              }}
+                              className={task.assignee_name === email ? "font-bold text-primary" : ""}
+                            >
+                              {email}
+                            </DropdownMenuItem>
+                          ))}
+                          <DropdownMenuSeparator />
+                          <DropdownMenuLabel>Roles Generales</DropdownMenuLabel>
+                          {["Christian", "Backend Developer", "Frontend Developer", "AI Engineer", "QA Tester"].map(
+                            (role) => (
+                              <DropdownMenuItem
+                                key={role}
+                                onClick={async () => {
+                                  const res = await updateTaskAssigneeAction(task.id, role)
+                                  if (res.success) {
+                                    toast.success(`Asignada a ${role}`)
+                                    router.refresh()
+                                  }
+                                }}
+                              >
+                                {role}
+                              </DropdownMenuItem>
+                            )
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </TableCell>
 
                     {/* Priority */}
@@ -399,7 +459,7 @@ export function TasksTable({ tasks }: TasksTableProps) {
                     {/* Actions */}
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-1">
-                        <TaskDialog task={task} />
+                        <TaskDialog task={task} teamUsers={teamUsers} />
 
                         <AlertDialog>
                           <AlertDialogTrigger asChild>

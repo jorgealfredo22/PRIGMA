@@ -265,3 +265,134 @@ export async function seedPrigmateTasksAction(): Promise<ActionResponse> {
     }
   }
 }
+
+// 7. Obtener correos de los usuarios registrados en Supabase Auth
+export async function getTeamUsersAction(): Promise<string[]> {
+  try {
+    const user = await getCurrentUser()
+    if (!user) return []
+
+    const supabase = createAdminSupabaseClient()
+    const { data, error } = await supabase.auth.admin.listUsers()
+
+    if (error) {
+      console.error("Error listing users:", error.message)
+      return []
+    }
+
+    const emails = data?.users
+      ?.map((u) => u.email)
+      .filter((e): e is string => Boolean(e)) ?? []
+
+    return Array.from(new Set(emails)).sort()
+  } catch (err) {
+    console.error("Error fetching team users:", err)
+    return []
+  }
+}
+
+// 8. Actualizar asignado inline (rápido con 1 clic)
+export async function updateTaskAssigneeAction(
+  id: string,
+  assignee_name: string
+): Promise<ActionResponse> {
+  try {
+    const user = await getCurrentUser()
+    if (!user) return { success: false, error: "No autorizado" }
+
+    const name = assignee_name.trim()
+    if (!name) return { success: false, error: "El nombre o correo del asignado es obligatorio" }
+
+    const supabase = createAdminSupabaseClient()
+    const { error } = await supabase
+      .from("admin_tasks")
+      .update({
+        assignee_name: name,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", id)
+
+    if (error) throw new Error(error.message)
+
+    revalidatePath("/dashboard/admin/tasks")
+    return { success: true }
+  } catch (err) {
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Error al reasignar la tarea",
+    }
+  }
+}
+
+// 9. Importar o Reemplazar Roadmap Completo (desde texto o JSON)
+export async function importCustomRoadmapAction(params: {
+  tasks: Array<{
+    task_code: string
+    title: string
+    description?: string | null
+    assignee_name?: string
+    priority?: string
+    estimated_days?: number
+    status?: string
+    project?: string
+  }>
+  mode: "merge" | "replace"
+  project?: string
+}): Promise<ActionResponse> {
+  try {
+    const user = await getCurrentUser()
+    if (!user) return { success: false, error: "No autorizado" }
+
+    if (!Array.isArray(params.tasks) || params.tasks.length === 0) {
+      return { success: false, error: "No se proporcionaron tareas válidas para importar" }
+    }
+
+    const supabase = createAdminSupabaseClient()
+    const targetProject = params.project?.trim() || "Prigmate"
+
+    // If replace mode, remove existing tasks for that project
+    if (params.mode === "replace") {
+      const { error: delErr } = await supabase
+        .from("admin_tasks")
+        .delete()
+        .eq("project", targetProject)
+
+      if (delErr) throw new Error(`Error limpiando tareas anteriores: ${delErr.message}`)
+    }
+
+    // Format tasks for insert/upsert
+    const formatted = params.tasks.map((t, index) => {
+      const task_code = (t.task_code?.trim() || `TSK-${index + 1}`).toUpperCase()
+      const title = t.title?.trim() || `Tarea ${task_code}`
+      const status = VALID_STATUSES.includes(t.status as TaskStatus) ? t.status : "pending"
+      const priority = VALID_PRIORITIES.includes(t.priority as TaskPriority) ? t.priority : "medium"
+      const estimated_days = t.estimated_days && Number(t.estimated_days) > 0 ? Number(t.estimated_days) : 1.0
+
+      return {
+        task_code,
+        title,
+        description: t.description?.trim() || null,
+        project: targetProject,
+        assignee_name: t.assignee_name?.trim() || "Christian",
+        status,
+        priority,
+        estimated_days,
+        updated_at: new Date().toISOString(),
+      }
+    })
+
+    const { error: insErr } = await supabase
+      .from("admin_tasks")
+      .upsert(formatted, { onConflict: "task_code" })
+
+    if (insErr) throw new Error(`Error al guardar tareas: ${insErr.message}`)
+
+    revalidatePath("/dashboard/admin/tasks")
+    return { success: true, count: formatted.length }
+  } catch (err) {
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Error al importar el roadmap",
+    }
+  }
+}

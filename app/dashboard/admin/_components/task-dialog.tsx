@@ -34,6 +34,7 @@ interface TaskDialogProps {
   task?: AdminTask
   trigger?: React.ReactNode
   onSuccess?: () => void
+  teamUsers?: string[]
 }
 
 const COMMON_ASSIGNEES = [
@@ -45,7 +46,7 @@ const COMMON_ASSIGNEES = [
   "DevOps / Christian",
 ]
 
-export function TaskDialog({ task, trigger, onSuccess }: TaskDialogProps) {
+export function TaskDialog({ task, trigger, onSuccess, teamUsers = [] }: TaskDialogProps) {
   const [open, setOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
@@ -203,26 +204,68 @@ export function TaskDialog({ task, trigger, onSuccess }: TaskDialogProps) {
                   name="assignee_name"
                   value={assigneeName}
                   onChange={(e) => setAssigneeName(e.target.value)}
-                  placeholder="Nombre o rol del responsable"
+                  placeholder="Selecciona o escribe el responsable"
                   list="assignee-suggestions"
                   required
                 />
                 <datalist id="assignee-suggestions">
+                  {teamUsers.map((email) => (
+                    <option key={email} value={email} />
+                  ))}
                   {COMMON_ASSIGNEES.map((person) => (
                     <option key={person} value={person} />
                   ))}
                 </datalist>
-                <div className="flex flex-wrap gap-1">
-                  {COMMON_ASSIGNEES.map((person) => (
-                    <button
-                      key={person}
-                      type="button"
-                      onClick={() => setAssigneeName(person)}
-                      className="text-[11px] bg-muted hover:bg-primary/10 hover:text-primary transition-colors px-1.5 py-0.5 rounded border text-muted-foreground"
-                    >
-                      {person}
-                    </button>
-                  ))}
+
+                {/* Chips de correos registrados del equipo */}
+                {teamUsers.length > 0 && (
+                  <div className="space-y-1">
+                    <p className="text-[10px] uppercase font-semibold text-muted-foreground">
+                      Usuarios Registrados:
+                    </p>
+                    <div className="flex flex-wrap gap-1">
+                      {teamUsers.map((email) => (
+                        <button
+                          key={email}
+                          type="button"
+                          onClick={() => setAssigneeName(email)}
+                          className={`text-[11px] transition-all px-2 py-0.5 rounded-full border flex items-center gap-1 ${
+                            assigneeName === email
+                              ? "bg-primary text-primary-foreground border-primary font-medium"
+                              : "bg-muted/70 hover:bg-muted text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          <span className="h-3 w-3 rounded-full bg-primary/20 text-current flex items-center justify-center text-[9px] font-bold">
+                            {email.slice(0, 1).toUpperCase()}
+                          </span>
+                          <span>{email}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Perfiles sugeridos */}
+                <div className="space-y-1 pt-1">
+                  <p className="text-[10px] uppercase font-semibold text-muted-foreground">
+                    Perfiles generales:
+                  </p>
+                  <div className="flex flex-wrap gap-1">
+                    {COMMON_ASSIGNEES.map((person) => (
+                      <button
+                        key={person}
+                        type="button"
+                        onClick={() => setAssigneeName(person)}
+                        className={`text-[11px] transition-colors px-1.5 py-0.5 rounded border ${
+                          assigneeName === person
+                            ? "bg-primary text-primary-foreground border-primary font-medium"
+                            : "bg-muted hover:bg-primary/10 hover:text-primary text-muted-foreground"
+                        }`}
+                      >
+                        {person}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
