@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "meta-social-technologies": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.facebook.com/devtools"
+      ]
+    }
+  }
+}

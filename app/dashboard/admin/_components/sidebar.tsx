@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation"
 import {
   BookOpen,
   LayoutDashboard,
+  CheckSquare,
   Key,
   Users,
   CreditCard,
@@ -30,6 +31,7 @@ import {
 
 const nav_items = [
   { href: "/dashboard/admin/overview", label: "Overview", icon: LayoutDashboard },
+  { href: "/dashboard/admin/tasks", label: "Tareas", icon: CheckSquare },
   { href: "/dashboard/admin/licenses", label: "Licencias", icon: Key },
   { href: "/dashboard/admin/clients", label: "Clientes", icon: Users },
   { href: "/dashboard/admin/payments", label: "Pagos", icon: CreditCard },

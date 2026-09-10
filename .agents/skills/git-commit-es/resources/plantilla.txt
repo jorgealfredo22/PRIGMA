@@ -1,0 +1,13 @@
+<tipo>(<alcance>): <descripción corta en español y en imperativo/presente>
+
+<Explicación detallada del por qué y contexto del cambio>
+
+Cambios principales:
+- <cambio 1>
+- <cambio 2>
+
+Metadatos de Trazabilidad:
+- Autor: Christian
+- Asistente IA: Antigravity (Gemini 3.8 Flash)
+- Impacto: <Sin breaking changes | Requiere migración en Supabase | etc.>
+- Referencias: <#ID o N/A>
