@@ -138,6 +138,7 @@ export async function GET(req: Request): Promise<Response> {
         success: true,
         count: tasksWithContacts.length,
         data: tasksWithContacts,
+        tasks: tasksWithContacts,
       }),
       {
         status: 200,

@@ -199,6 +199,7 @@ export async function POST(req: Request): Promise<Response> {
         success: true,
         message: `Task ${currentTask.task_code} status successfully updated to ${newStatus}`,
         data: updatedData,
+        task: updatedData,
         log: auditLog,
       }),
       {
