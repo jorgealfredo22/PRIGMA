@@ -14,7 +14,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import { TasksViewWrapper } from "../_components/tasks-view-wrapper"
 import { RoadmapDialog } from "../_components/roadmap-dialog"
 import { TaskDialog } from "../_components/task-dialog"
+import { TeamDialog } from "../_components/team-dialog"
 import { getTeamUsersAction } from "./actions"
+import { getTeamMembersAction } from "../team-actions"
 import type { AdminTask } from "./types"
 
 export const metadata = {
@@ -30,13 +32,14 @@ export default async function AdminTasksPage() {
 
   const supabase = createAdminSupabaseClient()
 
-  // Fetch tasks and team users in parallel
-  const [tasksResult, teamUsers] = await Promise.all([
+  // Fetch tasks, team emails, and team contacts in parallel
+  const [tasksResult, teamUsers, teamContacts] = await Promise.all([
     supabase
       .from("admin_tasks")
       .select("*")
       .order("created_at", { ascending: true }),
     getTeamUsersAction(),
+    getTeamMembersAction(),
   ])
 
   if (tasksResult.error) {
@@ -77,6 +80,7 @@ export default async function AdminTasksPage() {
 
         {/* Action Buttons in Top Header */}
         <div className="flex items-center gap-2 shrink-0">
+          <TeamDialog initialMembers={teamContacts} />
           <RoadmapDialog />
           <TaskDialog teamUsers={teamUsers} />
         </div>

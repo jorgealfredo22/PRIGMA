@@ -10,6 +10,7 @@ import {
   CheckSquare,
   Key,
   Users,
+  Building2,
   CreditCard,
   Mail,
   LogOut,
@@ -33,8 +34,9 @@ import {
 const nav_items = [
   { href: "/dashboard/admin/overview", label: "Overview", icon: LayoutDashboard },
   { href: "/dashboard/admin/tasks", label: "Tareas", icon: CheckSquare },
+  { href: "/dashboard/admin/team", label: "Equipo", icon: Users },
   { href: "/dashboard/admin/licenses", label: "Licencias", icon: Key },
-  { href: "/dashboard/admin/clients", label: "Clientes", icon: Users },
+  { href: "/dashboard/admin/clients", label: "Clientes", icon: Building2 },
   { href: "/dashboard/admin/payments", label: "Pagos", icon: CreditCard },
   { href: "/dashboard/admin/email", label: "Correo", icon: Mail },
   { href: "/dashboard/admin/docs", label: "Docs API", icon: BookOpen },
