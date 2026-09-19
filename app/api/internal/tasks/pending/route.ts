@@ -11,7 +11,7 @@ import type { AdminTask, TaskStatus } from "@/app/dashboard/admin/tasks/types"
 
 export const runtime = "nodejs"
 
-const DEFAULT_PENDING_STATUSES: TaskStatus[] = ["pending", "in_progress", "in_review"]
+const DEFAULT_PENDING_STATUSES: TaskStatus[] = ["pending", "in_progress", "in_review", "blocked"]
 
 export async function GET(req: Request): Promise<Response> {
   const requestId = randomUUID()
