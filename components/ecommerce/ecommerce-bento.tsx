@@ -77,7 +77,7 @@ export default function EcommerceBento() {
 
           {/* CARD 1: TIENDA ONLINE (md:col-span-7) */}
           <div
-            className={`md:col-span-7 p-8 rounded-3xl bg-gradient-to-br from-gray-900/90 via-gray-900/50 to-gray-950 border transition-all duration-300 relative overflow-hidden flex flex-col justify-between ${
+            className={`md:col-span-7 p-5 sm:p-8 rounded-3xl bg-gradient-to-br from-gray-900/90 via-gray-900/50 to-gray-950 border transition-all duration-300 relative overflow-hidden flex flex-col justify-between ${
               activeTab === "tienda"
                 ? "border-purple-500/60 shadow-xl shadow-purple-950/40 ring-1 ring-purple-500/30"
                 : "border-gray-800/80 hover:border-gray-700"
@@ -142,7 +142,7 @@ export default function EcommerceBento() {
 
           {/* CARD 2: POS MOSTRADOR FÍSICO (md:col-span-5) */}
           <div
-            className={`md:col-span-5 p-8 rounded-3xl bg-gradient-to-br from-gray-900/90 via-gray-900/50 to-gray-950 border transition-all duration-300 relative overflow-hidden flex flex-col justify-between ${
+            className={`md:col-span-5 p-5 sm:p-8 rounded-3xl bg-gradient-to-br from-gray-900/90 via-gray-900/50 to-gray-950 border transition-all duration-300 relative overflow-hidden flex flex-col justify-between ${
               activeTab === "pos"
                 ? "border-purple-500/60 shadow-xl shadow-purple-950/40 ring-1 ring-purple-500/30"
                 : "border-gray-800/80 hover:border-gray-700"
@@ -195,7 +195,7 @@ export default function EcommerceBento() {
 
           {/* CARD 3: ÓRDENES DE TRABAJO / SERVICIO TÉCNICO (md:col-span-6) */}
           <div
-            className={`md:col-span-6 p-8 rounded-3xl bg-gradient-to-br from-gray-900/90 via-gray-900/50 to-gray-950 border transition-all duration-300 relative overflow-hidden flex flex-col justify-between ${
+            className={`md:col-span-6 p-5 sm:p-8 rounded-3xl bg-gradient-to-br from-gray-900/90 via-gray-900/50 to-gray-950 border transition-all duration-300 relative overflow-hidden flex flex-col justify-between ${
               activeTab === "taller"
                 ? "border-purple-500/60 shadow-xl shadow-purple-950/40 ring-1 ring-purple-500/30"
                 : "border-gray-800/80 hover:border-gray-700"
@@ -245,7 +245,7 @@ export default function EcommerceBento() {
 
           {/* CARD 4: TRACKING DE ENVÍOS (md:col-span-6) */}
           <div
-            className={`md:col-span-6 p-8 rounded-3xl bg-gradient-to-br from-gray-900/90 via-gray-900/50 to-gray-950 border transition-all duration-300 relative overflow-hidden flex flex-col justify-between ${
+            className={`md:col-span-6 p-5 sm:p-8 rounded-3xl bg-gradient-to-br from-gray-900/90 via-gray-900/50 to-gray-950 border transition-all duration-300 relative overflow-hidden flex flex-col justify-between ${
               activeTab === "tracking"
                 ? "border-purple-500/60 shadow-xl shadow-purple-950/40 ring-1 ring-purple-500/30"
                 : "border-gray-800/80 hover:border-gray-700"
